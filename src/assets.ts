@@ -67,10 +67,7 @@ export namespace Audio {
     export class AudioMusic {
         static getName(): string { return 'music'; }
 
-        static getAC3(): string { return require('assets/audio/music.ac3'); }
-        static getM4A(): string { return require('assets/audio/music.m4a'); }
         static getMP3(): string { return require('assets/audio/music.mp3'); }
-        static getOGG(): string { return require('assets/audio/music.ogg'); }
     }
 }
 
@@ -100,7 +97,7 @@ export namespace Audiosprites {
 }
 
 export namespace GoogleWebFonts {
-    export const Barrio: string = 'Barrio';
+    export const VT323: string = 'VT323';
 }
 
 export namespace CustomWebFonts {
