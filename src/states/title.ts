@@ -2,6 +2,7 @@ import * as Assets from '../assets';
 
 const RADIAN = 6.283185;
 const ONE_DEGREE_RADIANS = 0.01745329;
+
 export default class Title extends Phaser.State {
     private googleFontText: Phaser.Text = null;
     private localFontText: Phaser.Text = null;
