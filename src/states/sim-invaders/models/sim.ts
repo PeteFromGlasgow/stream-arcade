@@ -1,11 +1,10 @@
 import * as Assets from '../../../assets';
 import {EnemyBullet} from './enemyBullet';
 
-const BULLET_SPAWN_DELAY = 150;
+const BULLET_SPAWN_DELAY = 5000;
 export class Sim extends Phaser.Sprite {
     private lastBulletTime: number = 0;
     private bulletDirectionFlip = false;
-
 
     private shipMovementCounter: number = 0;
     constructor(game: Phaser.Game, x: number, y: number) {
@@ -13,6 +12,7 @@ export class Sim extends Phaser.Sprite {
         this.game = game;
         this.anchor.set(0.4);
         game.add.existing(this);
+        game.physics.enable(this, Phaser.Physics.ARCADE);
     }
 
     update() {

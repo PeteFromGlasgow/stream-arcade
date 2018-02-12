@@ -1,6 +1,7 @@
 import * as Assets from '../../assets';
 import {Player} from './models/player';
 import {Sim} from './models/sim';
+import {EnemySimGroup, MOVEMENT_CHANGE_THRESHOLD_HORIZONTAL} from './models/enemySimGroup';
 import {PlayerBullet} from './models/playerBullet';
 
 
@@ -11,9 +12,17 @@ const BULLET_SPAWN_DELAY = 300;
 const WORLD_BOUNDS_X = 0;
 const WORLD_BOUNDS_Y = 0;
 const STANDARD_SIM_KILL_SCORE = 100;
+const WORLD_SPAWN_PADDING_HORIZONTAL = 0.3;
+const WORLD_SPAWN_PADDING_TOP = 0.1;
+const WORLD_SPAWN_PADDING_BOTTOM = 0.4;
+
+
+const ENEMY_COUNT_HORIZONTAL = 5;
+const ENEMY_COUNT_VERTICAL = 8;
+
+
 
 export default class SimInvaders extends Phaser.State {
-    private sim: Sim;
     private lastBulletTime: number = 0;
     private simInvadersTitle: Phaser.Text = null;
     private insertCoinText: Phaser.Text = null;
@@ -27,7 +36,7 @@ export default class SimInvaders extends Phaser.State {
 
     public create(): void {
         this.playerBulletGroup = this.add.physicsGroup();
-        this.enemySimGroup = this.add.physicsGroup();
+        this.enemySimGroup = new EnemySimGroup(this.game);
 
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -48,12 +57,24 @@ export default class SimInvaders extends Phaser.State {
         // this.insertCoinText.anchor.setTo(0.5);
 
         this.player = new Player(this.game, 100, 100);
-        this.sim = new Sim(this.game, this.game.world.centerX, this.game.world.top);
-        this.enemySimGroup.add(this.sim);
-        this.physics.enable(this.sim, Phaser.Physics.ARCADE);
+        this.setupEnemySims();
 
         this.pixelateShader = new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersPixelate.getName()));
+    }
 
+    private setupEnemySims () {
+        const rightBounds = (this.world.width * (1 - WORLD_SPAWN_PADDING_HORIZONTAL));
+        const leftBounds = this.world.width * WORLD_SPAWN_PADDING_HORIZONTAL;
+        const topBounds = this.world.height * WORLD_SPAWN_PADDING_TOP;
+        const bottomBounds = this.world.height * (1 - WORLD_SPAWN_PADDING_BOTTOM);
+        const spawnSpaceWidth = rightBounds - leftBounds;
+        const spawnSpaceHeight = bottomBounds - topBounds;
+        for (let spawnX = leftBounds; spawnX < rightBounds; spawnX += (spawnSpaceWidth / (ENEMY_COUNT_HORIZONTAL - 1))) {
+            for (let spawnY = topBounds; spawnY < bottomBounds; spawnY += spawnSpaceHeight / (ENEMY_COUNT_VERTICAL - 1)) {
+                let sim = new Sim(this.game, spawnX, spawnY);
+                this.enemySimGroup.add(sim);
+            }
+        }
     }
 
     private spawnBullet() {
@@ -68,8 +89,9 @@ export default class SimInvaders extends Phaser.State {
 
     private handleAttackEnemySim(bullet: PlayerBullet, sim: Sim) {
         this.score += STANDARD_SIM_KILL_SCORE;
-        bullet.destroy();
-        sim.destroy();
+        console.log(this.score);
+        this.playerBulletGroup.remove(bullet);
+        this.enemySimGroup.remove(sim);
     }
 
     public update() {

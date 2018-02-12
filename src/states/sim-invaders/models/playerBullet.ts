@@ -7,6 +7,7 @@ export class PlayerBullet extends Phaser.Sprite {
         this.game = game;
         this.anchor.set(0.5);
         this.lifespan = 10000;
+        game.physics.enable(this, Phaser.Physics.ARCADE);
         game.add.existing(this);
     }
 
