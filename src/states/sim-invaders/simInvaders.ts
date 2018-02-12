@@ -1,6 +1,7 @@
 import * as Assets from '../../assets';
 import {Player} from './models/player';
 import {Sim} from './models/sim';
+import {PlayerBullet} from './models/playerBullet';
 
 
 const RADIAN = 6.283185;
@@ -39,7 +40,7 @@ export default class SimInvaders extends Phaser.State {
         this.insertCoinText.anchor.setTo(0.5);
 
         this.player = new Player(this.game, 100, 100);
-        this.sim = new Sim(this.game, this.game.world.centerX, this.game.world.top)
+        this.sim = new Sim(this.game, this.game.world.centerX, this.game.world.top);
 
         this.pixelateShader = new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersPixelate.getName()));
 
@@ -48,10 +49,7 @@ export default class SimInvaders extends Phaser.State {
 
     private spawnBullet() {
         if ((Date.now() - BULLET_SPAWN_DELAY) > this.lastBulletTime) {
-            let bullet = this.game.add.text(this.player.x, this.player.y, '#', {
-                font: '30px ' + Assets.GoogleWebFonts.VT323,
-                fill: '#ffffff'
-            });
+            let bullet = new PlayerBullet(this.game, this.player.x, this.player.y)
             bullet.lifespan = BULLET_LIFESPAN;
             this.bulletGroup.add(bullet);
             this.lastBulletTime = Date.now();
