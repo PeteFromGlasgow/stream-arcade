@@ -5,6 +5,7 @@ export class Player extends Phaser.Sprite {
         super(game, x, y, Assets.Spritesheets.SpritesheetsShip3232.getName(), 0);
         this.game = game;
         this.anchor.set(0.4)
+        this.smoothed = false
         game.add.existing(this);
     }
 

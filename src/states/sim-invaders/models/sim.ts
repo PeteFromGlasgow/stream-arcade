@@ -23,7 +23,6 @@ export class Sim extends Phaser.Sprite {
     fire() {
         if ((Date.now() - BULLET_SPAWN_DELAY) > this.lastBulletTime) {
             this.bulletDirectionFlip = !this.bulletDirectionFlip
-            console.log(this.bulletDirectionFlip)
             new EnemyBullet(this.game, this.centerX, this.centerY, this.bulletDirectionFlip);
             this.lastBulletTime = Date.now()
         }
