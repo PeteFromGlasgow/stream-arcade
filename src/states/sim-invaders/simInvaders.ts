@@ -54,12 +54,11 @@ export default class SimInvaders extends Phaser.State {
 
         this.pixelateShader = new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersPixelate.getName()));
 
-        
     }
 
     private spawnBullet() {
         if ((Date.now() - BULLET_SPAWN_DELAY) > this.lastBulletTime) {
-            let bullet = new PlayerBullet(this.game, this.player.x, this.player.y)
+            let bullet = new PlayerBullet(this.game, this.player.x, this.player.y);
             this.physics.enable(bullet, Phaser.Physics.ARCADE);
             bullet.lifespan = BULLET_LIFESPAN;
             this.playerBulletGroup.add(bullet);

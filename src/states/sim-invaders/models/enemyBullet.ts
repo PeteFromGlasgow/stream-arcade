@@ -8,7 +8,7 @@ export class EnemyBullet extends Phaser.Sprite {
     constructor(game: Phaser.Game, x: number, y: number, reverse: boolean) {
         super(game, x, y, Assets.Spritesheets.SpritesheetsShip3232.getName(), 0);
         this.game = game;
-        this.anchor.set(0.4)
+        this.anchor.set(0.4);
         this.lifespan = 10000;
         this.reverseFactor = (reverse) ? -1 : 1;
         game.add.existing(this);

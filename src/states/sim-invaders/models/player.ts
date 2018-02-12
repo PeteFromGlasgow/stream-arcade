@@ -4,14 +4,14 @@ export class Player extends Phaser.Sprite {
     constructor(game: Phaser.Game, x: number, y: number) {
         super(game, x, y, Assets.Spritesheets.SpritesheetsShip3232.getName(), 0);
         this.game = game;
-        this.anchor.set(0.4)
-        this.smoothed = false
+        this.anchor.set(0.4);
+        this.smoothed = false;
         game.add.existing(this);
     }
 
 
     update() {
-        this.doPlayerMovement()
+        this.doPlayerMovement();
     }
 
     private playerBoundsCheck() {
@@ -51,6 +51,6 @@ export class Player extends Phaser.Sprite {
             this.position.add(0, 4);
         }
 
-        this.playerBoundsCheck()
+        this.playerBoundsCheck();
     }
 }
