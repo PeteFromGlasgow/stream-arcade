@@ -16,11 +16,8 @@ const WORLD_SPAWN_PADDING_HORIZONTAL = 0.3;
 const WORLD_SPAWN_PADDING_TOP = 0.1;
 const WORLD_SPAWN_PADDING_BOTTOM = 0.4;
 
-
 const ENEMY_COUNT_HORIZONTAL = 5;
 const ENEMY_COUNT_VERTICAL = 8;
-
-
 
 export default class SimInvaders extends Phaser.State {
     private lastBulletTime: number = 0;
@@ -42,19 +39,13 @@ export default class SimInvaders extends Phaser.State {
 
         this.world.setBounds(WORLD_BOUNDS_X, WORLD_BOUNDS_Y, this.game.width, this.game.height);
 
-        // this.simInvadersTitle = this.game.add.text(this.game.world.centerX, this.game.world.centerY - 100, 'SIM\nInvaders', {
-        //     font: '50px ' + Assets.GoogleWebFonts.VT323,
-        //     boundsAlignV: 'middle',
-        //     boundsAlignH: 'middle',
-        //     fill: '#FFFFFF'
-        // });
+        this.simInvadersTitle = this.game.add.text(this.world.width - 100, 10, 'Score 0', {
+            font: '12px ' + Assets.GoogleWebFonts.VT323,
+            boundsAlignV: 'middle',
+            boundsAlignH: 'middle',
+            fill: '#FFFFFF'
+        });
 
-        // this.insertCoinText = this.game.add.text(this.game.world.centerX, this.game.world.centerY + 100, 'Insert Coin', {
-        //     font: '30px ' + Assets.GoogleWebFonts.VT323,
-        //     fill: '#ffffff'
-        // })
-        // this.simInvadersTitle.anchor.setTo(0.5);
-        // this.insertCoinText.anchor.setTo(0.5);
 
         this.player = new Player(this.game, 100, 100);
         this.setupEnemySims();
@@ -71,7 +62,7 @@ export default class SimInvaders extends Phaser.State {
         const spawnSpaceHeight = bottomBounds - topBounds;
         for (let spawnX = leftBounds; spawnX < rightBounds; spawnX += (spawnSpaceWidth / (ENEMY_COUNT_HORIZONTAL - 1))) {
             for (let spawnY = topBounds; spawnY < bottomBounds; spawnY += spawnSpaceHeight / (ENEMY_COUNT_VERTICAL - 1)) {
-                let sim = new Sim(this.game, spawnX, spawnY);
+                let sim = new Sim(this.game, spawnX, spawnY, this.player);
                 this.enemySimGroup.add(sim);
             }
         }
@@ -87,9 +78,12 @@ export default class SimInvaders extends Phaser.State {
         }
     }
 
+    private updateScoreText() {
+        this.simInvadersTitle.setText(`Score ${this.score}`);
+    }
     private handleAttackEnemySim(bullet: PlayerBullet, sim: Sim) {
         this.score += STANDARD_SIM_KILL_SCORE;
-        console.log(this.score);
+        this.updateScoreText();
         this.playerBulletGroup.remove(bullet);
         this.enemySimGroup.remove(sim);
     }

@@ -5,11 +5,13 @@ const BULLET_SPAWN_DELAY = 5000;
 export class Sim extends Phaser.Sprite {
     private lastBulletTime: number = 0;
     private bulletDirectionFlip = false;
+    private player;
 
     private shipMovementCounter: number = 0;
-    constructor(game: Phaser.Game, x: number, y: number) {
+    constructor(game: Phaser.Game, x: number, y: number, player) {
         super(game, x, y, Assets.Spritesheets.SpritesheetsShip3232.getName(), 0);
         this.game = game;
+        this.player = player;
         this.anchor.set(0.4);
         game.add.existing(this);
         game.physics.enable(this, Phaser.Physics.ARCADE);
@@ -23,7 +25,7 @@ export class Sim extends Phaser.Sprite {
     fire() {
         if ((Date.now() - BULLET_SPAWN_DELAY) > this.lastBulletTime) {
             this.bulletDirectionFlip = !this.bulletDirectionFlip;
-            new EnemyBullet(this.game, this.centerX, this.centerY, this.bulletDirectionFlip);
+            new EnemyBullet(this.game, this.centerX, this.centerY, this.bulletDirectionFlip, this.player);
             this.lastBulletTime = Date.now();
         }
     }
