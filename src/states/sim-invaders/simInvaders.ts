@@ -30,6 +30,8 @@ export default class SimInvaders extends Phaser.State {
 
     private score: number = 0;
     private lives: number = 3;
+    private wave: number = 1;
+    private newWaveQueued = false;
 
     public create(): void {
         this.playerBulletGroup = this.add.physicsGroup();
@@ -40,15 +42,19 @@ export default class SimInvaders extends Phaser.State {
         this.world.setBounds(WORLD_BOUNDS_X, WORLD_BOUNDS_Y, this.game.width, this.game.height);
 
         this.simInvadersTitle = this.game.add.text(this.world.width - 100, 10, 'Score 0', {
-            font: '12px ' + Assets.GoogleWebFonts.VT323,
+            font: '18px ' + Assets.GoogleWebFonts.VT323,
             boundsAlignV: 'middle',
             boundsAlignH: 'middle',
             fill: '#FFFFFF'
         });
 
+        this.newWaveQueued = true;
+        this.displayWave().then(() => {
+            this.setupEnemySims();
+            this.newWaveQueued = false;
+        });
 
         this.player = new Player(this.game, 100, 100);
-        this.setupEnemySims();
 
         this.pixelateShader = new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersPixelate.getName()));
     }
@@ -88,12 +94,38 @@ export default class SimInvaders extends Phaser.State {
         this.enemySimGroup.remove(sim);
     }
 
+    private async displayWave() {
+        return new Promise((resolve, reject) => {
+            let text = this.add.text(this.world.centerX, this.world.centerY, `Wave ${this.wave}`, {
+                font: '36px ' + Assets.GoogleWebFonts.VT323,
+                boundsAlignV: 'middle',
+                boundsAlignH: 'middle',
+                fill: '#FFFFFF'
+            });
+
+            text.anchor.set(0.5, 0.5);
+            text.lifespan = 3000;
+            text.events.onKilled.add(() => {
+                resolve();
+            });
+        });
+
+    }
+
     public update() {
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) this.spawnBullet();
         this.enemySimGroup.forEach(sim => sim.fire(), this);
         this.playerBulletGroup.forEach((item: Phaser.Text) => {
             item.position.add(0, -10);
         }, this);
+        if (this.enemySimGroup.length === 0 && !this.newWaveQueued) {
+            this.newWaveQueued = true;
+            this.wave++;
+            this.displayWave().then(() => {
+                this.setupEnemySims();
+                this.newWaveQueued = false;
+            });
+        }
         this.physics.arcade.collide(this.playerBulletGroup, this.enemySimGroup, (bullet: PlayerBullet, sim: Sim) => this.handleAttackEnemySim(bullet, sim));
     }
 }
