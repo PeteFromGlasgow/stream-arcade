@@ -1,32 +1,36 @@
+import * as Assets from '../../../assets';
 
 export default class Player extends Phaser.Sprite {
  
     constructor(game: Phaser.Game, x: number, y: number) {
 
-        super(game, x, y, 'scrangle', 0);
-
-        this.anchor.setTo(0.5, 0);
-        this.game.load.image('scrangle', 'assets/spritesheets/squirrel.png');
-        this.animations.add('walk', [0, 1, 2, 3, 4], 10, true);
-        this.game.add.sprite(200, 200, 'scrangle');
+        super(game, x, y, Assets.Images.SpritesheetsSquirrel.getName(), 0);
+        this.anchor.set(0.4);
         game.add.existing(this);
     }
+    private boundsCheck() {
+        if (this.y > this.game.world.bounds.height) {
+            this.y = this.game.world.bounds.height;
+        }
 
-    update() {
-
-        this.body.velocity.x = 0;
+        if (this.y < this.game.world.bounds.y) {
+            this.y = this.game.world.bounds.y;
+        }
+    }
+    private playerMovement() {
+        this.boundsCheck();
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
 
-            this.body.velocity.y = 50;
-            //this.animations.play('flap');
-
+            this.position.add(0, -2);
         }
         else {
-            //this.animations.frame = 0;
-            this.body.velocity.y = -80;
+            this.position.add(0, 2.5);
         }
 
+    }
+    update() {
+        this.playerMovement();
     }
 
 }
