@@ -1,14 +1,16 @@
 import * as Assets from '../../assets';
 import Player from './models/player';
+import Block from './models/block';
 import BlockGroup from './models/blockGroup';
 
 const WORLD_BOUNDS_X = 0;
 const WORLD_BOUNDS_Y = 0;
-const WORLD_SPAWN_PADDING_HORIZONTAL = 0.3;
+const WORLD_SPAWN_PADDING_HORIZONTAL = 0;
 const WORLD_SPAWN_PADDING_TOP = 0.1;
 const WORLD_SPAWN_PADDING_BOTTOM = 0.4;
 const BLOCK_COUNT = 20;
 const BLOCK_SPACING = 300;
+const MAX_COLOURS = 200;
 
 export default class FlappyScrangle extends Phaser.State {
 
@@ -17,59 +19,62 @@ export default class FlappyScrangle extends Phaser.State {
 	private enemyBlockGroup: Phaser.Group = null;
 	private blockCount: number = 0;
 	private score: number = 0;
-
+	private timer: Phaser.Timer;
+	private colours: number[][] = [[255, 0, 0],[226, 87, 30],[255, 127, 0],[255, 255, 0],[ 0, 255, 0],[150, 191, 51],[0, 0, 255],[75, 0, 130],[139, 0, 255],[255, 255, 255]];
+	
 	public create(): void {
 		this.physics.startSystem(Phaser.Physics.ARCADE);
 		this.world.setBounds(WORLD_BOUNDS_X, WORLD_BOUNDS_Y, this.game.width, this.game.height);
 
 		    
-		this.player = new Player(this.game,60,200);
+		this.player = new Player(this.game,300,200);
 		this.enemyBlockGroup = new BlockGroup(this.game);
-		this.scoreText = this.game.add.text(this.world.width - 100, 10, 'Score 0', {
+		this.scoreText = this.game.add.text(this.world.width - 100, 10, 'Score: 0', {
 			font: '18px ' + Assets.GoogleWebFonts.VT323,
 			boundsAlignV: 'middle',
 			boundsAlignH: 'middle',
 			fill: '#FFFFFF'
 		});
-		
-		this.generateLevel();
+		this.stage.backgroundColor = '#99FFFF';
+		this.time.events.loop(1500, this.makeBlockPair, this); 
 	}
 
-	generateLevel() {
-        
-		const rightBounds = ((this.game.world.width + 100) * (1 - WORLD_SPAWN_PADDING_HORIZONTAL));
-		const leftBounds = this.game.world.width * WORLD_SPAWN_PADDING_HORIZONTAL;
-		const topBounds = this.game.world.height * WORLD_SPAWN_PADDING_TOP;
-		const bottomBounds = this.game.world.height * (1 - WORLD_SPAWN_PADDING_BOTTOM);
-		const spawnSpaceWidth = rightBounds - leftBounds;
-		const spawnSpaceHeight = bottomBounds - topBounds;
-		
-		while(this.blockCount < BLOCK_COUNT){
-			
-			let topBrick = new Phaser.Sprite(this.game, (200 +(this.blockCount * BLOCK_SPACING) ),-10,Assets.Images.SpritesheetsSquirrel.getName(), 0);
-			topBrick.scale.setTo(1,(12 * Math.random()));
-
-			let bottomBrick = new Phaser.Sprite(this.game, (200 +(this.blockCount * BLOCK_SPACING) ),topBrick.bottom + 80,Assets.Images.SpritesheetsSquirrel.getName(), 0);
-
-			bottomBrick.scale.setTo(1,((bottomBounds - (topBrick.bottom-80))/16));
-			
-			this.enemyBlockGroup.add(topBrick);
-			this.enemyBlockGroup.add(bottomBrick);
-			
-			this.blockCount++;
-		}
-		
-	
-	
+	RGBtoHEX(r,g,b) {
+		return r << 16 | g << 8 | b;
 	}
+	makeBlock(x,y, colour) {
 
+		let block = new Block(this.game, x,y);
+		block.tint = colour;
+		this.blockCount++;
+		
+
+	}
+	makeBlockPair() {
+
+		const rightBounds = (this.world.width * (1 - WORLD_SPAWN_PADDING_HORIZONTAL));
+        const leftBounds = this.world.width * WORLD_SPAWN_PADDING_HORIZONTAL;
+        const topBounds = this.world.height * WORLD_SPAWN_PADDING_TOP;
+		const bottomBounds = this.world.height * (1 - WORLD_SPAWN_PADDING_BOTTOM);
+
+		let colour = this.RGBtoHEX(this.colours[this.blockCount%this.colours.length][0],
+			this.colours[this.blockCount%this.colours.length][1],
+			this.colours[this.blockCount%this.colours.length][2]);
+			
+			var hole = Math.floor(Math.random() * 11) + 2;
+
+
+			for (var i = 0; i < 15; i++){
+				if (i != hole && i != hole + 1){ 
+					this.makeBlock(800, i * 32 + 10,colour);
+				}
+			}  
+		this.score++;
+	}
 	public update() {
-
+		
 		this.player.update();
-		this.checkBlocks();
-	}
-	checkBlocks() {
-
+		this.scoreText.text = "Score: " + this.score;
 	}
 
 }
