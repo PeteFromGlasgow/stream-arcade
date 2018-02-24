@@ -35,22 +35,23 @@ export default class FlappyScrangle extends Phaser.State {
 			boundsAlignH: 'middle',
 			fill: '#FFFFFF'
 		});
-		this.stage.backgroundColor = '#99FFFF';
+		// this.stage.backgroundColor = '#99FFFF';
+		this.stage.backgroundColor = '#269900';
 		this.timer = this.time.events.loop(1500, this.makeBlockPair, this); 
 	}
 
 	RGBtoHEX(r,g,b) {
 		return r << 16 | g << 8 | b;
 	}
-	makeBlock(x,y, colour) {
 
-		let block = new Block(this.game, x,y);
+	makeBlock(x,y, colour, index) {
+
+		let block = new Block(this.game, x,y, index);
 		block.tint = colour;
 		this.blocks.add(block);
 		this.blockCount++;
-		
-
 	}
+
 	makeBlockPair() {
 
 		const rightBounds = (this.world.width * (1 - WORLD_SPAWN_PADDING_HORIZONTAL));
@@ -64,31 +65,54 @@ export default class FlappyScrangle extends Phaser.State {
 			
 			var hole = Math.floor(Math.random() * 11) + 2;
 
+			let index = 3;
+			for (var i = 0; i < 16; i++){
+				
 
-			for (var i = 0; i < 15; i++){
-				if (i != hole && i != hole + 1){ 
-					this.makeBlock(800, i * 32 + 10,colour);
+				if (i != hole && i != hole + 1 && i != hole +2){ 
+					if(i == hole -1){
+						index = 1;
+					}
+					else if(i == hole + 3){
+						index =0;
+					}
+					else{
+						index = 2;
+					}
+					this.makeBlock(800, i * 32,colour,index);
 				}
 			}  
 		this.score++;
 	}
+
 	hitBlock() {
     	if (this.player.alive == false){
 			return;
 		}
-
-    // Set the alive property of the bird to false
-    this.player.alive = false;
-    this.time.events.remove(this.timer);
-    this.blocks.forEach(function(p){
+    	this.player.alive = false;
+    	this.time.events.remove(this.timer);
+    	this.blocks.forEach(function(p){
         	p.body.velocity.x = 0;
-    	}, this);
+		}, this);
 	}
+
 	public update() {
-		
+    	if (this.game.input.keyboard.isDown(Phaser.Keyboard.ENTER)) {
+			this.game.state.start('flappyScrangle');
+			this.score = 0;
+			this.blockCount = 0;
+		}
+
 		this.player.update();
 		this.physics.arcade.overlap(
-			this.player, this.blocks, this.hitBlock, null, this);  
+			this.player, this.blocks, this.hitBlock, null, this);
+		
+			this.blocks.forEach(function(p){
+				if(p.body.position.x < - 32){
+					//p.remove();
+				}
+			}, this);  
+		
 		this.scoreText.text = "Score: " + this.score;
 	}
 

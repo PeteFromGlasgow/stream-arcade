@@ -6,10 +6,20 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/images/background_template.png'); }
     }
-    export class ImagesWhiteBlock {
-        static getName(): string { return 'white_block'; }
+    export class ImagesWhiteBlockBorderedBottom {
+        static getName(): string { return 'white_block_bordered_bottom'; }
 
-        static getPNG(): string { return require('assets/images/white_block.png'); }
+        static getPNG(): string { return require('assets/images/white_block_bordered_bottom.png'); }
+    }
+    export class ImagesWhiteBlockBorderedMiddle {
+        static getName(): string { return 'white_block_bordered_middle'; }
+
+        static getPNG(): string { return require('assets/images/white_block_bordered_middle.png'); }
+    }
+    export class ImagesWhiteBlockBorderedTop {
+        static getName(): string { return 'white_block_bordered_top'; }
+
+        static getPNG(): string { return require('assets/images/white_block_bordered_top.png'); }
     }
     export class SpritesheetsSquirrel {
         static getName(): string { return 'squirrel'; }
