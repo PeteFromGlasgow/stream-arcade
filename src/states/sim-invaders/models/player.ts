@@ -1,11 +1,14 @@
 import * as Assets from '../../../assets';
 
+
+const PLAYER_SPEED = 10;
 export class Player extends Phaser.Sprite {
     constructor(game: Phaser.Game, x: number, y: number) {
-        super(game, x, y, Assets.Spritesheets.SpritesheetsShip3232.getName(), 0);
+        super(game, x, y, Assets.Spritesheets.SpritesheetsSpritesheet64643.getName(), 0);
         this.game = game;
-        this.anchor.set(0.4);
+        this.anchor.set(0.5);
         this.smoothed = false;
+        game.physics.enable(this, Phaser.Physics.ARCADE);
         game.add.existing(this);
     }
 
@@ -36,19 +39,19 @@ export class Player extends Phaser.Sprite {
 
     private doPlayerMovement() {
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-            this.position.add(-4, 0);
+            this.position.add(-PLAYER_SPEED, 0);
         }
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-            this.position.add(4, 0);
+            this.position.add(PLAYER_SPEED, 0);
         }
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-            this.position.add(0, -4);
+            this.position.add(0, -PLAYER_SPEED);
         }
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-            this.position.add(0, 4);
+            this.position.add(0, PLAYER_SPEED);
         }
 
         this.playerBoundsCheck();
