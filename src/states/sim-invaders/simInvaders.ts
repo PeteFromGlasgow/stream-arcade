@@ -1,6 +1,6 @@
 import * as Assets from '../../assets';
 import {Player} from './models/player';
-import {Sim} from './models/sim';
+import {Sim, SimType} from './models/sim';
 import {EnemySimGroup, MOVEMENT_CHANGE_THRESHOLD_HORIZONTAL} from './models/enemySimGroup';
 import {PlayerBullet} from './models/playerBullet';
 import { EnemyBullet } from './models/enemyBullet';
@@ -18,10 +18,27 @@ const WORLD_SPAWN_PADDING_HORIZONTAL = 0.3;
 const WORLD_SPAWN_PADDING_TOP = 0.1;
 const WORLD_SPAWN_PADDING_BOTTOM = 0.4;
 
-const ENEMY_COUNT_HORIZONTAL = 10;
-const ENEMY_COUNT_VERTICAL = 8;
+const ENEMY_COUNT_HORIZONTAL = 6;
+const ENEMY_COUNT_VERTICAL = 5;
 
-const ESIM_ENABLE_WAVE = 5;
+const WAVE_ALLOWED_SIM_TABLES = [
+    [SimType.Purple],
+    [SimType.Purple, SimType.Red],
+    [SimType.Green, SimType.Red],
+    [SimType.Green, SimType.Red, SimType.Purple],
+    [SimType.Purple, SimType.Blue],
+    [SimType.Blue, SimType.Purple, SimType.Green, SimType.Red]
+];
+const WAVE_ENEMY_COUNT_TABLE = [
+    {horizontal: 6, vertical: 5},
+    {horizontal: 6, vertical: 5},
+    {horizontal: 6, vertical: 5},
+    {horizontal: 6, vertical: 5},
+    {horizontal: 6, vertical: 3},
+    {horizontal: 6, vertical: 6},
+];
+const ESIM_ENABLE_WAVE = 7;
+
 
 export default class SimInvaders extends Phaser.State {
     private lastBulletTime: number = 0;
@@ -73,6 +90,25 @@ export default class SimInvaders extends Phaser.State {
         this.pixelateShader = new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersPixelate.getName()));
     }
 
+    private getCurrentWaveSimTypeTable() {
+        if (this.wave >= WAVE_ALLOWED_SIM_TABLES.length) {
+            return WAVE_ALLOWED_SIM_TABLES[WAVE_ALLOWED_SIM_TABLES.length - 1]
+        }
+        return WAVE_ALLOWED_SIM_TABLES[this.wave];
+    }
+
+    private getRandomSimTypeForWave() {
+        let waveTable = this.getCurrentWaveSimTypeTable()
+        return waveTable[this.game.rnd.between(0, waveTable.length - 1)];
+    }
+
+    private getCurrentWaveEnemyCount() {
+        if (this.wave >= WAVE_ENEMY_COUNT_TABLE.length) {
+            return WAVE_ENEMY_COUNT_TABLE[WAVE_ENEMY_COUNT_TABLE.length - 1]
+        }
+        return WAVE_ENEMY_COUNT_TABLE[this.wave];
+    }
+
     private setupEnemySims () {
         const rightBounds = (this.world.width * (1 - WORLD_SPAWN_PADDING_HORIZONTAL));
         const leftBounds = this.world.width * WORLD_SPAWN_PADDING_HORIZONTAL;
@@ -80,9 +116,10 @@ export default class SimInvaders extends Phaser.State {
         const bottomBounds = this.world.height * (1 - WORLD_SPAWN_PADDING_BOTTOM);
         const spawnSpaceWidth = rightBounds - leftBounds;
         const spawnSpaceHeight = bottomBounds - topBounds;
-        for (let spawnX = leftBounds; spawnX < rightBounds; spawnX += (spawnSpaceWidth / (ENEMY_COUNT_HORIZONTAL - 1))) {
-            for (let spawnY = topBounds; spawnY < bottomBounds; spawnY += spawnSpaceHeight / (ENEMY_COUNT_VERTICAL - 1)) {
-                let sim = new Sim(this.game, spawnX, spawnY, this.player);
+        const enemyCounts = this.getCurrentWaveEnemyCount()
+        for (let spawnX = leftBounds; spawnX < rightBounds; spawnX += (spawnSpaceWidth / (enemyCounts.horizontal - 1))) {
+            for (let spawnY = topBounds; spawnY < bottomBounds; spawnY += spawnSpaceHeight / (enemyCounts.vertical - 1)) {
+                let sim = new Sim(this.game, spawnX, spawnY, this.player, this.getRandomSimTypeForWave(), this.wave > ESIM_ENABLE_WAVE);
                 this.enemySimGroup.add(sim);
             }
         }

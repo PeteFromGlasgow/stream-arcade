@@ -9,7 +9,7 @@ const ESIM_DOWNLOAD_DELAY = 15000;
 const ESIM_ANIMATION_TIME = 3000;
 
 const SIM_DEATH_FRAMERATE = 30;
-enum SimType {
+export enum SimType {
     Purple = 'purple',
     Green = 'green',
     Red = 'red',
@@ -48,15 +48,18 @@ export class Sim extends Phaser.Sprite {
         this.animations.add('red_death', this.range(58, 63), SIM_DEATH_FRAMERATE, false)
         this.animations.add('blue_death', this.range(64, 69), SIM_DEATH_FRAMERATE, false)
 
+        this.isESim = isESim
         this.simType = simType;
         this.play(this.simType + '_static');
         game.add.existing(this);
         game.physics.enable(this, Phaser.Physics.ARCADE);
 
-        let esimTransitionTimer = new Timer(this.game);
-        esimTransitionTimer.loop(ESIM_DOWNLOAD_DELAY,  () => this.doESimTransformation())
-        esimTransitionTimer.start();
-        this.game.time.add(esimTransitionTimer);
+        if (this.isESim) {
+            let esimTransitionTimer = new Timer(this.game);
+            esimTransitionTimer.loop(ESIM_DOWNLOAD_DELAY,  () => this.doESimTransformation())
+            esimTransitionTimer.start();
+            this.game.time.add(esimTransitionTimer);
+        }
     }
 
     private range(start: number, end: number, previous = []) {
