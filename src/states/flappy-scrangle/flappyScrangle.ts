@@ -16,10 +16,10 @@ export default class FlappyScrangle extends Phaser.State {
 
 	private scoreText: Phaser.Text = null;
 	private player: Player = null;
-	private enemyBlockGroup: Phaser.Group = null;
+	private blocks: Phaser.Group = null;
 	private blockCount: number = 0;
 	private score: number = 0;
-	private timer: Phaser.Timer;
+	private timer: Phaser.TimerEvent;
 	private colours: number[][] = [[255, 0, 0],[226, 87, 30],[255, 127, 0],[255, 255, 0],[ 0, 255, 0],[150, 191, 51],[0, 0, 255],[75, 0, 130],[139, 0, 255],[255, 255, 255]];
 	
 	public create(): void {
@@ -28,7 +28,7 @@ export default class FlappyScrangle extends Phaser.State {
 
 		    
 		this.player = new Player(this.game,300,200);
-		this.enemyBlockGroup = new BlockGroup(this.game);
+		this.blocks = new BlockGroup(this.game);
 		this.scoreText = this.game.add.text(this.world.width - 100, 10, 'Score: 0', {
 			font: '18px ' + Assets.GoogleWebFonts.VT323,
 			boundsAlignV: 'middle',
@@ -36,7 +36,7 @@ export default class FlappyScrangle extends Phaser.State {
 			fill: '#FFFFFF'
 		});
 		this.stage.backgroundColor = '#99FFFF';
-		this.time.events.loop(1500, this.makeBlockPair, this); 
+		this.timer = this.time.events.loop(1500, this.makeBlockPair, this); 
 	}
 
 	RGBtoHEX(r,g,b) {
@@ -46,6 +46,7 @@ export default class FlappyScrangle extends Phaser.State {
 
 		let block = new Block(this.game, x,y);
 		block.tint = colour;
+		this.blocks.add(block);
 		this.blockCount++;
 		
 
@@ -71,9 +72,23 @@ export default class FlappyScrangle extends Phaser.State {
 			}  
 		this.score++;
 	}
+	hitBlock() {
+    	if (this.player.alive == false){
+			return;
+		}
+
+    // Set the alive property of the bird to false
+    this.player.alive = false;
+    this.time.events.remove(this.timer);
+    this.blocks.forEach(function(p){
+        	p.body.velocity.x = 0;
+    	}, this);
+	}
 	public update() {
 		
 		this.player.update();
+		this.physics.arcade.overlap(
+			this.player, this.blocks, this.hitBlock, null, this);  
 		this.scoreText.text = "Score: " + this.score;
 	}
 
