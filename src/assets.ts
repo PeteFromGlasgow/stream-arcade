@@ -6,6 +6,16 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/images/background_template.png'); }
     }
+    export class ImagesFreebsd {
+        static getName(): string { return 'freebsd'; }
+
+        static getPNG(): string { return require('assets/images/freebsd.png'); }
+    }
+    export class ImagesSquare {
+        static getName(): string { return 'square'; }
+
+        static getPNG(): string { return require('assets/images/square.png'); }
+    }
     export class ImagesTitleText {
         static getName(): string { return 'title_text'; }
 

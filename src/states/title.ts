@@ -1,5 +1,6 @@
 import * as Assets from '../assets';
 import { ScoreService, Games } from '../services/ScoreService';
+import { Keyboard } from 'phaser-ce';
 
 const RADIAN = 6.283185;
 const ONE_DEGREE_RADIANS = 0.01745329;
@@ -14,13 +15,18 @@ export default class Title extends Phaser.State {
     private sfxAudiosprite: Phaser.AudioSprite = null;
     private mummySpritesheet: Phaser.Sprite = null;
     private sinTracker = 0;
+    private selected: string = 'simInvaders';
+    private flappySquare: Phaser.Sprite = null;
+    private simInvadersSquare: Phaser.Sprite = null;
+    private selectionText: Phaser.Text = null;
+    private flappyText: Phaser.Sprite = null;
 
     // This is any[] not string[] due to a limitation in TypeScript at the moment;
     // despite string enums working just fine, they are not officially supported so we trick the compiler into letting us do it anyway.
     private sfxLaserSounds: any[] = null;
 
     public create(): void {
-        this.googleFontText = this.game.add.text(this.game.world.centerX, this.game.world.centerY - 100, 'Stream Arcade', {
+        this.googleFontText = this.game.add.text(this.game.world.centerX, this.game.world.centerY - 460, 'Stream Arcade', {
             font: '50px ' + Assets.GoogleWebFonts.VT323,
             fill: '#FFFFFF'
         });
@@ -30,18 +36,65 @@ export default class Title extends Phaser.State {
 
         this.pixelateShader = new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersPixelate.getName()));
 
-        this.googleFontText.filters = [this.pixelateShader];
+       // this.googleFontText.filters = [this.pixelateShader];
 
-        this.mummySpritesheet = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY + 175, Assets.Spritesheets.SpritesheetsMetalslugMummy374518.getName());
-        this.mummySpritesheet.animations.add('walk');
-        this.mummySpritesheet.animations.play('walk', 30, true);
+        this.flappySquare = new Phaser.Sprite(this.game,this.game.world.centerX + 50,this.game.world.centerY - 256,Assets.Images.ImagesSquare.getName());
+        this.simInvadersSquare = new Phaser.Sprite(this.game,this.game.world.centerX - 350,this.game.world.centerY - 256,Assets.Images.ImagesSquare.getName());
 
+        this.flappySquare.tint = this.RGBtoHEX(94,104,119);
+        this.simInvadersSquare.tint = this.RGBtoHEX(94,104,119);
+
+        this.flappySquare.width = 256;
+        this.flappySquare.height = 256;
+        this.simInvadersSquare.width = 256;
+        this.simInvadersSquare.height = 256;
+
+        this.flappySquare.alpha = 0.5;
+       
+        this.simInvadersSquare.alpha = 1;
+
+        this.game.add.existing(this.flappySquare);
+        this.game.add.existing(this.simInvadersSquare);
+
+        this.flappyText = this.game.add.sprite(this.flappySquare.position.x + 30, this.flappySquare.position.y + 50, Assets.Images.ImagesTitleText.getName());
+        this.flappyText.scale.setTo(0.25,0.25);
+        this.flappyText.alpha = 0.5;
+        this.game.add.existing(this.flappyText);
+
+        this.selectionText = this.game.add.text(this.game.world.centerX - 150,this.game.world.centerY + 300, 'Use the arrow keys to choose.. ', {
+			font: '25px ' + Assets.GoogleWebFonts.VT323,
+			boundsAlignV: 'middle',
+			boundsAlignH: 'middle',
+			fill: '#FFFFFF'
+		});
+
+        this.stage.backgroundColor = '#000000';
         //this.game.sound.play(Assets.Audio.AudioMusic.getName(), 1, true);
         this.game.state.start('simInvadersScoreboard');
     }
 
+	RGBtoHEX(r,g,b) {
+		return r << 16 | g << 8 | b;
+    }
+    
     public update(): void {
         this.sinTracker = (this.sinTracker + (10 * ONE_DEGREE_RADIANS))  % RADIAN;
         this.googleFontText.rotation = 0.2 * Math.sin(this.sinTracker);
+
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+            this.selected = 'simInvaders';
+            this.flappySquare.alpha = 0.5;
+            this.flappyText.alpha = 0.5;
+            this.simInvadersSquare.alpha = 1;
+        }
+        else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+            this.selected = 'flappyTitle';
+            this.flappySquare.alpha = 1;
+            this.flappyText.alpha = 1;
+            this.simInvadersSquare.alpha = 0.5;
+        }
+        else if(this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+            this.game.state.start(this.selected);
+        }
     }
 }
