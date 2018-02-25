@@ -7,9 +7,8 @@ import * as WebFontLoader from 'webfontloader';
 import Boot from './states/boot';
 import Preloader from './states/preloader';
 import Title from './states/title';
-
 import FlappyScrangle from './states/flappy-scrangle/flappyScrangle';
-
+import SimInvaders from './states/sim-invaders/simInvaders';
 import * as Utils from './utils/utils';
 import * as Assets from './assets';
 
@@ -20,8 +19,8 @@ class App extends Phaser.Game {
         this.state.add('boot', Boot);
         this.state.add('preloader', Preloader);
         this.state.add('title', Title);
-    
         this.state.add('flappyScrangle', FlappyScrangle);
+        this.state.add('simInvaders', SimInvaders);
         this.state.start('boot');
     }
 }
