@@ -12,7 +12,6 @@ export class Player extends Phaser.Sprite {
         game.add.existing(this);
     }
 
-
     update() {
         this.doPlayerMovement();
     }

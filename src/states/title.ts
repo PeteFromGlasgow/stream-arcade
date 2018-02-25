@@ -33,7 +33,6 @@ export default class Title extends Phaser.State {
             fill: '#FFFFFF'
         });
 
-
         this.googleFontText.anchor.setTo(0.5);
 
         this.pixelateShader = new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersPixelate.getName()));
@@ -87,7 +86,7 @@ export default class Title extends Phaser.State {
         this.googleFontText.rotation = 0.2 * Math.sin(this.sinTracker);
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-            this.selected = 'simInvaders';
+            this.selected = 'simInvadersTitle';
             this.flappySquare.alpha = 0.5;
             this.flappyText.alpha = 0.5;
             this.simInvadersSquare.alpha = 1;

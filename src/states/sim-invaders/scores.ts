@@ -23,20 +23,7 @@ export default class SimInvadersScoreboard extends Phaser.State {
         this.game.add.existing(this.scoreList);
         this.game.add.existing(this.title);
         this.scoreService = new ScoreService();
-        this.createScoreList([
-            {
-                name: 'Hello',
-                score: 1000
-            },
-            {
-                name: 'Hello',
-                score: 1000
-            },
-            {
-                name: 'Hello',
-                score: 1000
-            }
-        ])
+        this.loadScores();
     }
 
     private createScoreList(scores: any[]) {
@@ -64,10 +51,12 @@ export default class SimInvadersScoreboard extends Phaser.State {
     private async loadScores() {
         try {
             let scores = await this.scoreService.getScores(Games.FlappyScrangle);
+            console.log(scores)
             this.createScoreList(scores);
         } catch (error) {
             console.log('Could not load scores');
         }
+
     }
 
     public update() {
