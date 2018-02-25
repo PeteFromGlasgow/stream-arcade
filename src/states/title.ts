@@ -33,8 +33,8 @@ export default class Title extends Phaser.State {
         this.mummySpritesheet.animations.add('walk');
         this.mummySpritesheet.animations.play('walk', 30, true);
 
-        this.game.sound.play(Assets.Audio.AudioMusic.getName(), 1, true);
-
+        //this.game.sound.play(Assets.Audio.AudioMusic.getName(), 1, true);
+        this.game.state.start('flappyScrangle');
     }
 
     public update(): void {

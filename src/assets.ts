@@ -6,6 +6,26 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/images/background_template.png'); }
     }
+    export class ImagesWhiteBlockBorderedBottom {
+        static getName(): string { return 'white_block_bordered_bottom'; }
+
+        static getPNG(): string { return require('assets/images/white_block_bordered_bottom.png'); }
+    }
+    export class ImagesWhiteBlockBorderedMiddle {
+        static getName(): string { return 'white_block_bordered_middle'; }
+
+        static getPNG(): string { return require('assets/images/white_block_bordered_middle.png'); }
+    }
+    export class ImagesWhiteBlockBorderedTop {
+        static getName(): string { return 'white_block_bordered_top'; }
+
+        static getPNG(): string { return require('assets/images/white_block_bordered_top.png'); }
+    }
+    export class SpritesheetsSquirrel {
+        static getName(): string { return 'squirrel'; }
+
+        static getPNG(): string { return require('assets/spritesheets/squirrel.png'); }
+    }
 }
 
 export namespace Spritesheets {
@@ -154,10 +174,20 @@ export namespace Scripts {
     }
 }
 export namespace Shaders {
+    export class ShadersBacteria {
+        static getName(): string { return 'bacteria'; }
+
+        static getFRAG(): string { return require('assets/shaders/bacteria.frag'); }
+    }
     export class ShadersPixelate {
         static getName(): string { return 'pixelate'; }
 
         static getFRAG(): string { return require('assets/shaders/pixelate.frag'); }
+    }
+    export class ShadersWave {
+        static getName(): string { return 'wave'; }
+
+        static getFRAG(): string { return require('assets/shaders/wave.frag'); }
     }
 }
 export namespace Misc {
