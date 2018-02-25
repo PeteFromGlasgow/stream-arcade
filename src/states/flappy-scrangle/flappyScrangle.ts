@@ -27,6 +27,7 @@ export default class FlappyScrangle extends Phaser.State {
 	private colours: number[][] = [[255, 0, 0],[226, 87, 30],[255, 127, 0],[255, 255, 0],[ 0, 255, 0],[150, 191, 51],[0, 0, 255],[75, 0, 130],[139, 0, 255],[255, 255, 255]];
 	
 	public create(): void {
+
 		this.physics.startSystem(Phaser.Physics.ARCADE);
 		this.world.setBounds(WORLD_BOUNDS_X, WORLD_BOUNDS_Y, this.game.width, this.game.height);
 
@@ -38,15 +39,15 @@ export default class FlappyScrangle extends Phaser.State {
 
 		this.player = new Player(this.game,300,200);
 		this.blocks = new BlockGroup(this.game);
-		this.scoreText = this.game.add.text(this.world.width - 100, 10, 'Score: 0', {
-			font: '18px ' + Assets.GoogleWebFonts.VT323,
+		this.scoreText = this.game.add.text(this.world.width - 300, 10, 'Score: 0', {
+			font: '40px ' + Assets.GoogleWebFonts.VT323,
 			boundsAlignV: 'middle',
 			boundsAlignH: 'middle',
 			fill: '#FFFFFF'
 		});
 		// this.stage.backgroundColor = '#99FFFF';
 		this.stage.backgroundColor = '#269900';
-		this.timer = this.time.events.loop(1500, this.makeBlockPair, this); 
+		this.timer = this.time.events.loop(2500, this.makeBlockPair, this); 
 		// new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersPixelate.getName()));
 
         this.scanlineFilter =  new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersWave.getName()));
@@ -76,23 +77,24 @@ export default class FlappyScrangle extends Phaser.State {
 			this.colours[this.blockCount%this.colours.length][1],
 			this.colours[this.blockCount%this.colours.length][2]);
 			
-			var hole = Math.floor(Math.random() * 11) + 2;
+			var hole = Math.floor(Math.random() * 25) + 2;
 
 			let index = 3;
-			for (var i = 0; i < 16; i++){
+
+			for (var i = 0; i < 42; i++){
 				
 
-				if (i != hole && i != hole + 1 && i != hole +2){ 
+				if (i != hole && i != hole + 1 && i != hole +2 && i != hole +3 && i != hole +4 && i != hole +5){ 
 					if(i == hole -1){
 						index = 1;
 					}
-					else if(i == hole + 3){
+					else if(i == hole + 6){
 						index =0;
 					}
 					else{
 						index = 2;
 					}
-					this.makeBlock(800, i * 32,colour,index);
+					this.makeBlock(1890, i * 32,colour,index);
 				}
 			}  
 		this.score++;

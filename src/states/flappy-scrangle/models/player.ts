@@ -4,21 +4,25 @@ export default class Player extends Phaser.Sprite {
     
     alive: boolean = true;
 
-    private quotes: string[] = ['Fuck FreeBSD..',
-    ,'It\'s just a blip..',
-    'Mkdir!','It\'s not service impacting..',
-    'I only test things in production..',
-    'Counting is broken again..',
+    private quotes: string[] = [
+    'Fuck FreeBSD..',
+    'It\'s just a blip..',
+    'mkdir!',
+    'It\'s not service impacting.',
+    'I only test things in production.',
+    'Counting is broken again.',
     'Fuck MellyCount..',
     'We are Building.',
-    'rm -rf /var/db..',
+    'rm -rf /var/db',
     'shutdown -p now',
-    'Oh look, it\'s broken again™'];
+    'Oh look, it\'s broken again™',
+    'Who\'s is this shit code?',
+    ];
 
     private timer: Phaser.TimerEvent;
     private quoteLabel: Phaser.Text;
     private textRotation: number = 0;
-
+    private quoteCount: number = 0;
     constructor(game: Phaser.Game, x: number, y: number) {
 
         super(game, x, y, Assets.Images.SpritesheetsSquirrel.getName(), 0);
@@ -30,9 +34,9 @@ export default class Player extends Phaser.Sprite {
         this.checkWorldBounds = true;
         this.outOfBoundsKill = true;
         this.events.onOutOfBounds.add(this.isDead, this);
-        this.body.gravity.y = 1000; 
+        this.body.gravity.y = 1100; 
         this.timer = this.timer = this.game.time.events.loop(1500, this.spawnText, this);
-
+        this.quotes = this.shuffle(this.quotes);
         game.add.existing(this);
     }
     private isDead (){
@@ -46,7 +50,7 @@ export default class Player extends Phaser.Sprite {
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
 
-            this.body.velocity.y = -270;
+            this.body.velocity.y = -360;
             var animation = this.game.add.tween(this);
             animation.to({angle: -10}, 50);
             animation.start(); 
@@ -55,9 +59,18 @@ export default class Player extends Phaser.Sprite {
             this.angle += 1; 
         }
     }
-
+    shuffle(a) {
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
     spawnText() {
-        this.quoteLabel = this.game.add.text(this.position.x - 20, this.position.y, this.quotes[this.game.rnd.between(0,this.quotes.length+1)], {font: '18px ' + Assets.GoogleWebFonts.VT323,
+        if(this.quoteCount > this.quotes.length)
+            this.quoteCount = 0;
+
+        this.quoteLabel = this.game.add.text(this.position.x - 20, this.position.y, this.quotes[this.quoteCount], {font: '25px ' + Assets.GoogleWebFonts.VT323,
                                                                                        boundsAlignV: 'middle',
                                                                                        boundsAlignH: 'middle',
                                                                                        fill: '#FFFFFF'});
@@ -78,6 +91,7 @@ export default class Player extends Phaser.Sprite {
         this.game.add.tween(this.quoteLabel).to({y: 0}, 3000, Phaser.Easing.Linear.None, true);
         this.game.add.tween(this.quoteLabel).to({alpha: 0}, 1500, Phaser.Easing.Linear.None, true);
         this.game.add.tween(this.quoteLabel).to( { angle: angle }, 2000, Phaser.Easing.Linear.None, true);
+        this.quoteCount++
     }
 
     update() {
