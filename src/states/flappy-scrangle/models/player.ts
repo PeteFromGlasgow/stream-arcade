@@ -3,14 +3,17 @@ import * as Assets from '../../../assets';
 export default class Player extends Phaser.Sprite {
     
     alive: boolean = true;
-    
+
     private quotes: string[] = ['Fuck FreeBSD..',
-    'Sausage!','Nuts!','It\'s just a blip..',
+    ,'It\'s just a blip..',
     'Mkdir!','It\'s not service impacting..',
     'I only test things in production..',
     'Counting is broken again..',
     'Fuck MellyCount..',
-    'We are Building.'];
+    'We are Building.',
+    'rm -rf /var/db..',
+    'shutdown -p now',
+    'Oh look, it\'s broken again™'];
 
     private timer: Phaser.TimerEvent;
     private quoteLabel: Phaser.Text;
@@ -20,16 +23,21 @@ export default class Player extends Phaser.Sprite {
 
         super(game, x, y, Assets.Images.SpritesheetsSquirrel.getName(), 0);
         this.scale.setTo(0.7,0.7);
-       // this.anchor.set(0.4);
+
         this.anchor.setTo(-0.2, 0.5); 
         
         game.physics.arcade.enable(this);
+        this.checkWorldBounds = true;
+        this.outOfBoundsKill = true;
+        this.events.onOutOfBounds.add(this.isDead, this);
         this.body.gravity.y = 1000; 
         this.timer = this.timer = this.game.time.events.loop(1500, this.spawnText, this);
 
         game.add.existing(this);
     }
-
+    private isDead (){
+        this.alive = false;
+    }
     private playerMovement() {
 
         if(this.alive == false){
@@ -38,7 +46,7 @@ export default class Player extends Phaser.Sprite {
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
 
-            this.body.velocity.y = -300;
+            this.body.velocity.y = -270;
             var animation = this.game.add.tween(this);
             animation.to({angle: -10}, 50);
             animation.start(); 
@@ -74,6 +82,10 @@ export default class Player extends Phaser.Sprite {
 
     update() {
         this.playerMovement();
+
+        if(this.alive == false){
+            this.game.time.events.remove(this.timer);
+        }
     }
 
 }

@@ -174,10 +174,20 @@ export namespace Scripts {
     }
 }
 export namespace Shaders {
+    export class ShadersBacteria {
+        static getName(): string { return 'bacteria'; }
+
+        static getFRAG(): string { return require('assets/shaders/bacteria.frag'); }
+    }
     export class ShadersPixelate {
         static getName(): string { return 'pixelate'; }
 
         static getFRAG(): string { return require('assets/shaders/pixelate.frag'); }
+    }
+    export class ShadersWave {
+        static getName(): string { return 'wave'; }
+
+        static getFRAG(): string { return require('assets/shaders/wave.frag'); }
     }
 }
 export namespace Misc {
