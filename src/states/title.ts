@@ -20,6 +20,8 @@ export default class Title extends Phaser.State {
     private simInvadersSquare: Phaser.Sprite = null;
     private selectionText: Phaser.Text = null;
     private flappyText: Phaser.Sprite = null;
+    private simInvadersText: Phaser.Sprite = null;
+
 
     // This is any[] not string[] due to a limitation in TypeScript at the moment;
     // despite string enums working just fine, they are not officially supported so we trick the compiler into letting us do it anyway.
@@ -50,7 +52,6 @@ export default class Title extends Phaser.State {
         this.simInvadersSquare.height = 256;
 
         this.flappySquare.alpha = 0.5;
-       
         this.simInvadersSquare.alpha = 1;
 
         this.game.add.existing(this.flappySquare);
@@ -61,6 +62,11 @@ export default class Title extends Phaser.State {
         this.flappyText.alpha = 0.5;
         this.game.add.existing(this.flappyText);
 
+        this.simInvadersText = this.game.add.sprite(this.simInvadersSquare.position.x + 30, this.simInvadersSquare.position.y + 50, Assets.Spritesheets.SpritesheetsSimInvaders800600.getName());
+        this.simInvadersText.scale.setTo(0.25,0.25);
+        this.simInvadersText.alpha = 1;
+        this.game.add.existing(this.simInvadersText);
+
         this.selectionText = this.game.add.text(this.game.world.centerX - 150,this.game.world.centerY + 300, 'Use the arrow keys to choose.. ', {
 			font: '25px ' + Assets.GoogleWebFonts.VT323,
 			boundsAlignV: 'middle',
@@ -70,7 +76,6 @@ export default class Title extends Phaser.State {
 
         this.stage.backgroundColor = '#000000';
         //this.game.sound.play(Assets.Audio.AudioMusic.getName(), 1, true);
-        this.game.state.start('simInvadersScoreboard');
     }
 
 	RGBtoHEX(r,g,b) {
@@ -86,12 +91,14 @@ export default class Title extends Phaser.State {
             this.flappySquare.alpha = 0.5;
             this.flappyText.alpha = 0.5;
             this.simInvadersSquare.alpha = 1;
+            this.simInvadersText.alpha = 1;
         }
         else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
             this.selected = 'flappyTitle';
             this.flappySquare.alpha = 1;
             this.flappyText.alpha = 1;
             this.simInvadersSquare.alpha = 0.5;
+            this.simInvadersText.alpha = 0.5;
         }
         else if(this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
             this.game.state.start(this.selected);

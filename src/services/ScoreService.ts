@@ -8,7 +8,7 @@ interface UserInfo {
 }
 
 const USER_INFO_KEY = 'userinfo';
-const API_URI = 'http://localhost:3000/'
+const API_URI = 'http://peterkinnaird.eu:3000/'
 
 export enum Games {
     FlappyScrangle = 1,

@@ -24,7 +24,7 @@ class App extends Phaser.Game {
         this.state.add('preloader', Preloader);
         this.state.add('title', Title);
         this.state.add('flappyTitle', FlappyTitle);
-        this.state.add('flappyStory',FlappyStory);
+        this.state.add('flappyStory', FlappyStory);
         this.state.add('flappyScrangle', FlappyScrangle);
         this.state.add('simInvaders', SimInvaders);
         this.state.add('simInvadersTitle', SimInvadersTitle);
