@@ -12,12 +12,26 @@ export default class FlappyStory extends Phaser.State {
     private skipTextTimer: Phaser.TimerEvent;
     private storyTimer: Phaser.TimerEvent;
 
+   
+
+    
+    
+    
     private storyText: string[] = ["There once was a squirrel called Scrangle.. ",
-                                   "He spent many months blaspheming about FreeBSD and it's developers..",
-                                   "Eventually the internet noticed, and an army of neckbeards assembled..",
-                                   "They marched through his forest chanting as they went.",
-                                   "They set fire to his nest, and all the trees, giving him no option but to flee..",
+                                   "He lived happily in a forest filled with trees and sugary treats. ",
+                                   "One day he was asked to embark on a quest to rid the FreeBSD kernel of all of it's nasty bugs..",
+                                   "This proved a great challenge to the apprentice nut cracker, and he found himself in fits of rage at FreeBSD..                                   ",
+                                   "He took to the FreeBSD message boards and complained loudly whenever he could stirring up rage from the developers.",
+                                   "He also embarked on a mission to flood the FreeBSD source code with ASCII squirrels to show them once and for all who was boss.", 
+                                   "One PC wasn't enough though, so he recruited lots of other woodland creatures to help, and taught them how to use git.",
+                                   "Soon enough, 80% of the source code was squirrels, and performance had slowed to a crawl.",
+                                   "The neckbeards had had enough!",
+                                   "They marched an army that stretched for miles deep into the forest, reverting any git commits they could find and setting fire to everything.",
+                                   "Eventually they surrounded Scrangle a top the highest tree.",
+                                   "In a flash, he took flight..",
+                                   "",
                                    "Join him now on his adventure to find a new home!"];
+
     private storySpriteText: Phaser.Text[];
     private storyTextCount = 0;
     // This is any[] not string[] due to a limitation in TypeScript at the moment;
@@ -27,16 +41,16 @@ export default class FlappyStory extends Phaser.State {
     public create(): void {
 
 
-        this.titleText = this.game.add.sprite(this.game.world.centerX -310, this.game.world.centerY - 400, Assets.Images.ImagesFreebsd.getName());
+        this.titleText = this.game.add.sprite(this.game.world.centerX -120, this.game.world.centerY + 250, Assets.Images.ImagesFreebsd.getName());
         this.titleText.scale.setTo(0.5,0.5);
 
         this.skipTextTimer = this.time.events.loop(500, this.flash, this);
-        this.storyTimer = this.time.events.loop(1500, this.showStory, this);
+        this.storyTimer = this.time.events.loop(2500, this.showStory, this);
 
         this.storySpriteText = new Array<Phaser.Text>();
 
         for(let i = 0; i < this.storyText.length; i++){
-            this.storySpriteText[i] = this.game.add.text(this.game.world.centerX - 300,((this.game.world.centerY - 300)+ (i*32)),this.storyText[i],{
+            this.storySpriteText[i] = this.game.add.text(this.game.world.centerX - 600,((this.game.world.centerY - 300)+ (i*32)),this.storyText[i],{
                 font: '25px ' + Assets.GoogleWebFonts.VT323,
                 boundsAlignV: 'middle',
                 boundsAlignH: 'middle',
@@ -46,7 +60,7 @@ export default class FlappyStory extends Phaser.State {
         }
 
 
-        this.skipText = this.game.add.text(this.game.world.centerX - 140,this.game.world.centerY + 100, 'Push S to skip..', {
+        this.skipText = this.game.add.text(this.game.world.centerX - 140,this.game.world.centerY + 350, 'Push S to skip..', {
 			font: '25px ' + Assets.GoogleWebFonts.VT323,
 			boundsAlignV: 'middle',
 			boundsAlignH: 'middle',
@@ -59,6 +73,9 @@ export default class FlappyStory extends Phaser.State {
         if(this.storyTextCount < this.storyText.length){
             this.storySpriteText[this.storyTextCount].visible = true;
             this.storyTextCount++;
+        }else{
+            this.storyTextCount = 0;
+            this.game.state.start('flappyScrangle');
         }
     }
     flash(){

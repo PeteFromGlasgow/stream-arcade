@@ -5,18 +5,20 @@ export default class Player extends Phaser.Sprite {
     alive: boolean = true;
 
     private quotes: string[] = [
-    'Fuck FreeBSD..',
-    'It\'s just a blip..',
-    'mkdir!',
-    'It\'s not service impacting.',
-    'I only test things in production.',
-    'Counting is broken again.',
-    'Fuck MellyCount..',
-    'We are Building.',
+    'FreeBSD sucks balls',
+    'It\'s just a blip',
+    'mkdir',
+    'It\'s not service impacting',
+    'I only test things in production',
+    'Oh look, counting is broken again',
+    'Fuck MellyCount',
+    'We are Building',
     'rm -rf /var/db',
     'shutdown -p now',
-    'Oh look, it\'s broken again™',
-    'Who\'s is this shit code?',
+    'shit on a fuck',
+    'wert',
+    'dert',
+    'There\'s no way this will break anything',
     ];
 
     private timer: Phaser.TimerEvent;
@@ -81,11 +83,11 @@ export default class Player extends Phaser.Sprite {
 
         let angle = 45;
         if(this.textRotation == 0){
-            angle = 45;
+            angle = 60;
             this.textRotation = 1;
         }
         else if(this.textRotation == 1){
-            angle = -45;
+            angle = -60;
             this.textRotation = 0;
         }
         this.game.add.tween(this.quoteLabel).to({y: 0}, 3000, Phaser.Easing.Linear.None, true);

@@ -16,6 +16,7 @@ const MAX_COLOURS = 200;
 export default class FlappyScrangle extends Phaser.State {
 
 	private scoreText: Phaser.Text = null;
+	private quitText: Phaser.Text = null;
 	private player: Player = null;
 	private blocks: Phaser.Group = null;
 	private blockCount: number = 0;
@@ -39,12 +40,19 @@ export default class FlappyScrangle extends Phaser.State {
 
 		this.player = new Player(this.game,300,200);
 		this.blocks = new BlockGroup(this.game);
-		this.scoreText = this.game.add.text(this.world.width - 300, 10, 'Score: 0', {
+		this.quitText = this.game.add.text(this.world.centerX + 500, 10, 'Esc to Quit', {
 			font: '40px ' + Assets.GoogleWebFonts.VT323,
 			boundsAlignV: 'middle',
 			boundsAlignH: 'middle',
 			fill: '#FFFFFF'
 		});
+		this.scoreText = this.game.add.text(this.world.centerX - 50, 10, 'Score: 0', {
+			font: '40px ' + Assets.GoogleWebFonts.VT323,
+			boundsAlignV: 'middle',
+			boundsAlignH: 'middle',
+			fill: '#FFFFFF'
+		});
+
 		// this.stage.backgroundColor = '#99FFFF';
 		this.stage.backgroundColor = '#269900';
 		this.timer = this.time.events.loop(2500, this.makeBlockPair, this); 
@@ -117,6 +125,11 @@ export default class FlappyScrangle extends Phaser.State {
 			this.score = 0;
 			this.blockCount = 0;
 		}
+
+		if( this.game.input.keyboard.isDown(Phaser.Keyboard.ESC)){
+			this.game.state.start('flappyTitle');
+		}
+
 		this.scanlineFilter.update();
 		this.player.update();
 		this.physics.arcade.overlap(

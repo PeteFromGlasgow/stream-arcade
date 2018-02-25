@@ -32,7 +32,7 @@ export default class FlappyTitle extends Phaser.State {
 			boundsAlignH: 'middle',
 			fill: '#FFDF00'
 		});
-        // this.stage.backgroundColor = '#269900';
+         this.stage.backgroundColor = '#000000';
     }
     flash(){
         if(this.startText.visible == true){
@@ -47,5 +47,9 @@ export default class FlappyTitle extends Phaser.State {
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
             this.game.state.start('flappyStory');
         }
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.ESC)) {
+            this.game.state.start('title');
+        }
+
     }
 }
