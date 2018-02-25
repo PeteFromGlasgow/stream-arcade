@@ -21,7 +21,9 @@
     "checkDepsVersions": "npm-check --skip-unused -u"
   },
   "devDependencies": {
+    "@types/jssha": "0.0.29",
     "@types/node": "8.0.47",
+    "@types/superagent": "^3.5.7",
     "@types/webfontloader": "1.6.29",
     "clean-webpack-plugin": "0.1.17",
     "commander": "2.11.0",
@@ -46,5 +48,9 @@
     "webpack-dev-server": "2.9.3",
     "webpack-shell-plugin": "0.5.0",
     "xml2js": "0.4.19"
+  },
+  "dependencies": {
+    "jssha": "^2.3.1",
+    "superagent": "^3.8.2"
   }
 }
