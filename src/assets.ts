@@ -6,6 +6,11 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/images/background_template.png'); }
     }
+    export class ImagesTitleText {
+        static getName(): string { return 'title_text'; }
+
+        static getPNG(): string { return require('assets/images/title_text.png'); }
+    }
     export class ImagesWhiteBlockBorderedBottom {
         static getName(): string { return 'white_block_bordered_bottom'; }
 
@@ -36,6 +41,66 @@ export namespace Spritesheets {
         static getFrameWidth(): number { return 37; }
         static getFrameHeight(): number { return 45; }
         static getFrameMax(): number { return 18; }
+        static getMargin(): number { return 0; }
+        static getSpacing(): number { return 0; }
+    }
+    export class SpritesheetsPlayerBullet3232 {
+        static getName(): string { return 'PlayerBullet.[32,32,0,0,0]'; }
+
+        static getPNG(): string { return require('assets/spritesheets/PlayerBullet.[32,32,0,0,0].png'); }
+        static getFrameWidth(): number { return 32; }
+        static getFrameHeight(): number { return 32; }
+        static getFrameMax(): number { return 0; }
+        static getMargin(): number { return 0; }
+        static getSpacing(): number { return 0; }
+    }
+    export class SpritesheetsShip3232 {
+        static getName(): string { return 'ship.[32,32,0,0,0]'; }
+
+        static getPNG(): string { return require('assets/spritesheets/ship.[32,32,0,0,0].png'); }
+        static getFrameWidth(): number { return 32; }
+        static getFrameHeight(): number { return 32; }
+        static getFrameMax(): number { return 0; }
+        static getMargin(): number { return 0; }
+        static getSpacing(): number { return 0; }
+    }
+    export class SpritesheetsSimInvaders800600 {
+        static getName(): string { return 'sim_invaders.[800,600,0,0,0]'; }
+
+        static getPNG(): string { return require('assets/spritesheets/sim_invaders.[800,600,0,0,0].png'); }
+        static getFrameWidth(): number { return 800; }
+        static getFrameHeight(): number { return 600; }
+        static getFrameMax(): number { return 0; }
+        static getMargin(): number { return 0; }
+        static getSpacing(): number { return 0; }
+    }
+    export class SpritesheetsSim646472 {
+        static getName(): string { return 'sim.[64,64,72,0,0]'; }
+
+        static getPNG(): string { return require('assets/spritesheets/sim.[64,64,72,0,0].png'); }
+        static getFrameWidth(): number { return 64; }
+        static getFrameHeight(): number { return 64; }
+        static getFrameMax(): number { return 72; }
+        static getMargin(): number { return 0; }
+        static getSpacing(): number { return 0; }
+    }
+    export class SpritesheetsSimbullet884 {
+        static getName(): string { return 'simbullet.[8,8,4,0,0]'; }
+
+        static getPNG(): string { return require('assets/spritesheets/simbullet.[8,8,4,0,0].png'); }
+        static getFrameWidth(): number { return 8; }
+        static getFrameHeight(): number { return 8; }
+        static getFrameMax(): number { return 4; }
+        static getMargin(): number { return 0; }
+        static getSpacing(): number { return 0; }
+    }
+    export class SpritesheetsSpritesheet64643 {
+        static getName(): string { return 'spritesheet.[64,64,3,0,0]'; }
+
+        static getPNG(): string { return require('assets/spritesheets/spritesheet.[64,64,3,0,0].png'); }
+        static getFrameWidth(): number { return 64; }
+        static getFrameHeight(): number { return 64; }
+        static getFrameMax(): number { return 3; }
         static getMargin(): number { return 0; }
         static getSpacing(): number { return 0; }
     }
@@ -191,5 +256,9 @@ export namespace Shaders {
     }
 }
 export namespace Misc {
-    class IExistSoTypeScriptWillNotComplainAboutAnEmptyNamespace {}
+    export class SpritesheetsShip374518 {
+        static getName(): string { return 'ship.[37,45,18,0,0]'; }
+
+        static getFile(): string { return require('assets/spritesheets/ship.[37,45,18,0,0].png~'); }
+    }
 }

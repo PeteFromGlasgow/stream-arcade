@@ -1,4 +1,5 @@
 import * as Assets from '../assets';
+import { ScoreService, Games } from '../services/ScoreService';
 
 const RADIAN = 6.283185;
 const ONE_DEGREE_RADIANS = 0.01745329;
@@ -23,6 +24,8 @@ export default class Title extends Phaser.State {
             font: '50px ' + Assets.GoogleWebFonts.VT323,
             fill: '#FFFFFF'
         });
+
+
         this.googleFontText.anchor.setTo(0.5);
 
         this.pixelateShader = new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersPixelate.getName()));
@@ -34,7 +37,7 @@ export default class Title extends Phaser.State {
         this.mummySpritesheet.animations.play('walk', 30, true);
 
         //this.game.sound.play(Assets.Audio.AudioMusic.getName(), 1, true);
-        this.game.state.start('flappyScrangle');
+        this.game.state.start('simInvadersScoreboard');
     }
 
     public update(): void {
