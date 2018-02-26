@@ -1,4 +1,5 @@
 import * as Assets from '../assets';
+import { ScoreService, Games } from '../services/ScoreService';
 import { Keyboard } from 'phaser-ce';
 
 const RADIAN = 6.283185;
@@ -16,9 +17,11 @@ export default class Title extends Phaser.State {
     private sinTracker = 0;
     private selected: string = 'simInvaders';
     private flappySquare: Phaser.Sprite = null;
-    private simInvadersSquare: Phaser.Sprite = null;    
+    private simInvadersSquare: Phaser.Sprite = null;
     private selectionText: Phaser.Text = null;
     private flappyText: Phaser.Sprite = null;
+    private simInvadersText: Phaser.Sprite = null;
+
 
     // This is any[] not string[] due to a limitation in TypeScript at the moment;
     // despite string enums working just fine, they are not officially supported so we trick the compiler into letting us do it anyway.
@@ -29,6 +32,7 @@ export default class Title extends Phaser.State {
             font: '50px ' + Assets.GoogleWebFonts.VT323,
             fill: '#FFFFFF'
         });
+
         this.googleFontText.anchor.setTo(0.5);
 
         this.pixelateShader = new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersPixelate.getName()));
@@ -47,7 +51,6 @@ export default class Title extends Phaser.State {
         this.simInvadersSquare.height = 256;
 
         this.flappySquare.alpha = 0.5;
-       
         this.simInvadersSquare.alpha = 1;
 
         this.game.add.existing(this.flappySquare);
@@ -57,6 +60,11 @@ export default class Title extends Phaser.State {
         this.flappyText.scale.setTo(0.25,0.25);
         this.flappyText.alpha = 0.5;
         this.game.add.existing(this.flappyText);
+
+        this.simInvadersText = this.game.add.sprite(this.simInvadersSquare.position.x + 30, this.simInvadersSquare.position.y + 50, Assets.Spritesheets.SpritesheetsSimInvaders800600.getName());
+        this.simInvadersText.scale.setTo(0.25,0.25);
+        this.simInvadersText.alpha = 1;
+        this.game.add.existing(this.simInvadersText);
 
         this.selectionText = this.game.add.text(this.game.world.centerX - 150,this.game.world.centerY + 300, 'Use the arrow keys to choose.. ', {
 			font: '25px ' + Assets.GoogleWebFonts.VT323,
@@ -78,16 +86,18 @@ export default class Title extends Phaser.State {
         this.googleFontText.rotation = 0.2 * Math.sin(this.sinTracker);
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-            this.selected = 'simInvaders';
+            this.selected = 'simInvadersTitle';
             this.flappySquare.alpha = 0.5;
             this.flappyText.alpha = 0.5;
             this.simInvadersSquare.alpha = 1;
+            this.simInvadersText.alpha = 1;
         }
         else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
             this.selected = 'flappyTitle';
             this.flappySquare.alpha = 1;
             this.flappyText.alpha = 1;
             this.simInvadersSquare.alpha = 0.5;
+            this.simInvadersText.alpha = 0.5;
         }
         else if(this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
             this.game.state.start(this.selected);

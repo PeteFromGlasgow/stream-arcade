@@ -181,6 +181,9 @@ export default class SimInvaders extends Phaser.State {
 
     private handlePlayerDeath(player: Player, bullet: EnemyBullet) {
         this.lives--;
+        if (this.lives === 0) {
+            this.game.state.start('simInvadersNameInput', true, false, this.score);
+        }
         this.resetGame();
         this.livesText.setText(`Lives ${this.lives}`);
     }
@@ -208,6 +211,7 @@ export default class SimInvaders extends Phaser.State {
             (bullet: PlayerBullet, sim: Sim) => this.handleAttackEnemySim(bullet, sim),
             (bullet, sim: Sim) => !sim.isDead
         );
+
 
         this.physics.arcade.collide(this.player, this.enemyBulletGroup, (player, bullet) => this.handlePlayerDeath(player, bullet));
     }

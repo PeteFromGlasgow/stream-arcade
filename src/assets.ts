@@ -74,6 +74,16 @@ export namespace Spritesheets {
         static getMargin(): number { return 0; }
         static getSpacing(): number { return 0; }
     }
+    export class SpritesheetsSimInvaders800600 {
+        static getName(): string { return 'sim_invaders.[800,600,0,0,0]'; }
+
+        static getPNG(): string { return require('assets/spritesheets/sim_invaders.[800,600,0,0,0].png'); }
+        static getFrameWidth(): number { return 800; }
+        static getFrameHeight(): number { return 600; }
+        static getFrameMax(): number { return 0; }
+        static getMargin(): number { return 0; }
+        static getSpacing(): number { return 0; }
+    }
     export class SpritesheetsSim646472 {
         static getName(): string { return 'sim.[64,64,72,0,0]'; }
 
@@ -256,5 +266,9 @@ export namespace Shaders {
     }
 }
 export namespace Misc {
-    class IExistSoTypeScriptWillNotComplainAboutAnEmptyNamespace {}
+    export class SpritesheetsShip374518 {
+        static getName(): string { return 'ship.[37,45,18,0,0]'; }
+
+        static getFile(): string { return require('assets/spritesheets/ship.[37,45,18,0,0].png~'); }
+    }
 }
