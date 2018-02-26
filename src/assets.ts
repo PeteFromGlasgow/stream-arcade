@@ -104,13 +104,13 @@ export namespace Spritesheets {
         static getMargin(): number { return 0; }
         static getSpacing(): number { return 0; }
     }
-    export class SpritesheetsSpritesheet64643 {
-        static getName(): string { return 'spritesheet.[64,64,3,0,0]'; }
+    export class SpritesheetsSpritesheet64648 {
+        static getName(): string { return 'spritesheet.[64,64,8,0,0]'; }
 
-        static getPNG(): string { return require('assets/spritesheets/spritesheet.[64,64,3,0,0].png'); }
+        static getPNG(): string { return require('assets/spritesheets/spritesheet.[64,64,8,0,0].png'); }
         static getFrameWidth(): number { return 64; }
         static getFrameHeight(): number { return 64; }
-        static getFrameMax(): number { return 3; }
+        static getFrameMax(): number { return 8; }
         static getMargin(): number { return 0; }
         static getSpacing(): number { return 0; }
     }
