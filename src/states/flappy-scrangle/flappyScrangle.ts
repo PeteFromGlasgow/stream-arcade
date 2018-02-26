@@ -40,7 +40,7 @@ export default class FlappyScrangle extends Phaser.State {
 
 		this.player = new Player(this.game,300,200);
 		this.blocks = new BlockGroup(this.game);
-		this.quitText = this.game.add.text(this.world.centerX + 500, 10, 'Esc to Quit', {
+		this.quitText = this.game.add.text(this.world.centerX + 700, 10, 'Esc to Quit', {
 			font: '40px ' + Assets.GoogleWebFonts.VT323,
 			boundsAlignV: 'middle',
 			boundsAlignH: 'middle',
@@ -68,7 +68,7 @@ export default class FlappyScrangle extends Phaser.State {
 
 	makeBlock(x,y, colour, index) {
 
-		let block = new Block(this.game, x,y, index);
+		let block = new Block(this.game, x,y, index,-300);
 		block.tint = colour;
 		this.blocks.add(block);
 		this.blockCount++;

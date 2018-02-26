@@ -3,7 +3,7 @@ import * as Assets from '../../../assets';
 export default class Block extends Phaser.Sprite {
 
                                   
-    constructor(game: Phaser.Game, x: number, y: number, index: number) {
+    constructor(game: Phaser.Game, x: number, y: number, index: number, velocity) {
 
         let textures: string[] = [Assets.Images.ImagesWhiteBlockBorderedTop.getName(),
                                   Assets.Images.ImagesWhiteBlockBorderedBottom.getName(),
@@ -15,7 +15,7 @@ export default class Block extends Phaser.Sprite {
 
         this.checkWorldBounds = true;
         this.outOfBoundsKill = true;
-        this.body.velocity.x = -300;
+        this.body.velocity.x = velocity;
 
         game.add.existing(this);
     }

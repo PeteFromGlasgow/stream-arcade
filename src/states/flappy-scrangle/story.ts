@@ -12,7 +12,7 @@ export default class FlappyStory extends Phaser.State {
     private skipTextTimer: Phaser.TimerEvent;
     private storyTimer: Phaser.TimerEvent;
 
-   
+    private skipped: boolean = false;
 
     
     
@@ -50,7 +50,7 @@ export default class FlappyStory extends Phaser.State {
         this.storySpriteText = new Array<Phaser.Text>();
 
         for(let i = 0; i < this.storyText.length; i++){
-            this.storySpriteText[i] = this.game.add.text(this.game.world.centerX - 600,((this.game.world.centerY - 300)+ (i*32)),this.storyText[i],{
+            this.storySpriteText[i] = this.game.add.text(this.game.world.centerX - 600,((this.game.world.centerY - 300)+ (i*38)),this.storyText[i],{
                 font: '25px ' + Assets.GoogleWebFonts.VT323,
                 boundsAlignV: 'middle',
                 boundsAlignH: 'middle',
@@ -75,7 +75,9 @@ export default class FlappyStory extends Phaser.State {
             this.storyTextCount++;
         }else{
             this.storyTextCount = 0;
+            this.skipped = true;
             this.game.state.start('flappyScrangle');
+
         }
     }
     flash(){
@@ -86,8 +88,11 @@ export default class FlappyStory extends Phaser.State {
         }
     }
     public update(): void {
-
+        if(this.skipped){
+            this.game.state.start('flappyScrangle');
+        }
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.S)) {
+            this.skipped = true;
             this.game.state.start('flappyScrangle');
         }
     }

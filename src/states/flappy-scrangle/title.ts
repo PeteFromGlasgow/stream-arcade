@@ -1,5 +1,6 @@
 import * as Assets from '../../assets';
 import { Keyboard } from 'phaser-ce';
+import Block from './models/block';
 
 const RADIAN = 6.283185;
 const ONE_DEGREE_RADIANS = 0.01745329;
@@ -12,7 +13,9 @@ export default class FlappyTitle extends Phaser.State {
     private startTextTimer: Phaser.TimerEvent;
     private sinTracker = 0;
 
-    
+    private blocks: Phaser.Group = null;
+    private colours: number[][] = [[255, 0, 0],[226, 87, 30],[255, 127, 0],[255, 255, 0],[ 0, 255, 0],[150, 191, 51],[0, 0, 255],[75, 0, 130],[139, 0, 255],[255, 255, 255]];
+	private blockCount: number = 0;
 
     // This is any[] not string[] due to a limitation in TypeScript at the moment;
     // despite string enums working just fine, they are not officially supported so we trick the compiler into letting us do it anyway.
@@ -33,7 +36,12 @@ export default class FlappyTitle extends Phaser.State {
 			fill: '#FFDF00'
 		});
          this.stage.backgroundColor = '#000000';
+         this.blocks = new Phaser.Group(this.game);
+
     }
+    
+
+
     flash(){
         if(this.startText.visible == true){
             this.startText.visible = false;
@@ -41,6 +49,8 @@ export default class FlappyTitle extends Phaser.State {
             this.startText.visible = true;
         }
     }
+
+    
     public update(): void {
         this.sinTracker = (this.sinTracker + (10 * ONE_DEGREE_RADIANS))  % RADIAN;
 
