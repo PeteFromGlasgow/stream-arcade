@@ -15,7 +15,7 @@ export default class Title extends Phaser.State {
     private sfxAudiosprite: Phaser.AudioSprite = null;
     private mummySpritesheet: Phaser.Sprite = null;
     private sinTracker = 0;
-    private selected: string = 'simInvaders';
+    private selected: string = 'simInvadersTitle';
     private flappySquare: Phaser.Sprite = null;
     private simInvadersSquare: Phaser.Sprite = null;
     private selectionText: Phaser.Text = null;

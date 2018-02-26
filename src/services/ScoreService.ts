@@ -68,4 +68,8 @@ export class ScoreService {
         this.userInfo = user.body;
         return this.userInfo;
     }
+
+    getUserName() {
+        return this.userInfo.name;
+    }
 }

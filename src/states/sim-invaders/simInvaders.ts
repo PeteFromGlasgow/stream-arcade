@@ -22,6 +22,7 @@ const ENEMY_COUNT_HORIZONTAL = 6;
 const ENEMY_COUNT_VERTICAL = 5;
 
 const WAVE_ALLOWED_SIM_TABLES = [
+    [],
     [SimType.Purple],
     [SimType.Purple, SimType.Red],
     [SimType.Green, SimType.Red],
@@ -30,6 +31,7 @@ const WAVE_ALLOWED_SIM_TABLES = [
     [SimType.Blue, SimType.Purple, SimType.Green, SimType.Red]
 ];
 const WAVE_ENEMY_COUNT_TABLE = [
+    {horizontal: 0, vertical: 0},
     {horizontal: 6, vertical: 5},
     {horizontal: 6, vertical: 5},
     {horizontal: 6, vertical: 5},
@@ -51,15 +53,18 @@ export default class SimInvaders extends Phaser.State {
     private enemySimGroup: Phaser.Group = null;
     private enemyBulletGroup: Phaser.Group = null;
 
-    private score: number = 0;
-    private lives: number = 3;
-    private wave: number = 1;
+    private score: number;
+    private lives: number;
+    private wave: number;
     private newWaveQueued = false;
 
     public create(): void {
         this.playerBulletGroup = this.add.physicsGroup();
         this.enemyBulletGroup = this.add.physicsGroup();
         this.enemySimGroup = new EnemySimGroup(this.game);
+        this.score = 100;
+        this.lives = 3;
+        this.wave = 1;
 
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -181,7 +186,7 @@ export default class SimInvaders extends Phaser.State {
 
     private handlePlayerDeath(player: Player, bullet: EnemyBullet) {
         this.lives--;
-        if (this.lives === 0) {
+        if (this.lives <= 0) {
             this.game.state.start('simInvadersNameInput', true, false, this.score);
         }
         this.resetGame();
