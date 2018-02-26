@@ -10,6 +10,8 @@ import Title from './states/title';
 import FlappyTitle from './states/flappy-scrangle/title';
 import FlappyStory from './states/flappy-scrangle/story';
 import FlappyScrangle from './states/flappy-scrangle/flappyScrangle';
+import FlappyNameInput from './states/flappy-scrangle/nameInput';
+import FlappyScoreboard from './states/flappy-scrangle/scores';
 import SimInvaders from './states/sim-invaders/simInvaders';
 import SimInvadersTitle from './states/sim-invaders/title';
 import SimInvadersScoreboard from './states/sim-invaders/scores';
@@ -30,7 +32,10 @@ class App extends Phaser.Game {
         this.state.add('simInvaders', SimInvaders);
         this.state.add('simInvadersTitle', SimInvadersTitle);
         this.state.add('simInvadersScoreboard', SimInvadersScoreboard);
-        this.state.add('simInvadersNameInput', SimInvadersNameInput)
+        this.state.add('simInvadersNameInput', SimInvadersNameInput);
+
+        this.state.add('flappyScoreboard', FlappyScoreboard);
+        this.state.add('flappyNameInput', FlappyNameInput);
         this.state.start('boot');
     }
 }
