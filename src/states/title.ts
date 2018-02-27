@@ -75,6 +75,9 @@ export default class Title extends Phaser.State {
 
         this.stage.backgroundColor = '#000000';
         this.game.sound.play(Assets.Audio.AudioStreamArcadeFull.getName(), 1, true);
+
+        this.game.input.gamepad.start();
+
     }
 
     public shutdown() {
@@ -89,21 +92,31 @@ export default class Title extends Phaser.State {
         this.sinTracker = (this.sinTracker + (10 * ONE_DEGREE_RADIANS))  % RADIAN;
         this.googleFontText.rotation = 0.2 * Math.sin(this.sinTracker);
 
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT) ||
+            this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) ||
+            this.game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1
+        ) {
             this.selected = 'simInvadersTitle';
             this.flappySquare.alpha = 0.5;
             this.flappyText.alpha = 0.5;
             this.simInvadersSquare.alpha = 1;
             this.simInvadersText.alpha = 1;
         }
-        else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+        else if (
+            this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT) ||
+            this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) ||
+            this.game.input.gamepad.pad1.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1
+        ) {
             this.selected = 'flappyTitle';
             this.flappySquare.alpha = 1;
             this.flappyText.alpha = 1;
             this.simInvadersSquare.alpha = 0.5;
             this.simInvadersText.alpha = 0.5;
         }
-        else if(this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+        else if(
+            this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ||
+            this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_A)
+        ){
             this.game.state.start(this.selected);
         }
     }

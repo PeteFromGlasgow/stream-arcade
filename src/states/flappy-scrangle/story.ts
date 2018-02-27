@@ -87,7 +87,7 @@ export default class FlappyStory extends Phaser.State {
     }
     public update(): void {
 
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.S)) {
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.S) || this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_B)) {
             this.game.state.start('flappyScrangle');
         }
     }

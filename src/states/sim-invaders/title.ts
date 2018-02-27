@@ -1,7 +1,7 @@
 import * as Assets from '../../assets';
 
 export default class SimInvadersTitle extends Phaser.State {
-    private startGameTime: number = Date.now() + 1000;
+    private debounceTime: number;
     private title: Phaser.Sprite;
     private startText: Phaser.Text = null;
     private startTextTimer: Phaser.TimerEvent;
@@ -11,6 +11,7 @@ export default class SimInvadersTitle extends Phaser.State {
         this.title.anchor.set(0.5);
         this.game.add.existing(this.title);
         this.startTextTimer = this.time.events.loop(500, () => this.startText.visible = !this.startText.visible, this);
+        this.debounceTime = Date.now() + 1000;
 
         this.startText = this.game.add.text(this.game.world.centerX - 140,this.game.world.centerY + 100, 'Insert Coin(s) to play..', {
             font: '25px ' + Assets.GoogleWebFonts.VT323,
@@ -22,13 +23,22 @@ export default class SimInvadersTitle extends Phaser.State {
     }
 
     public update() {
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        if ((this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ||
+            this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_A)) && Date.now() > this.debounceTime
+        ) {
             this.game.state.start('simInvaders');
         }
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.ESC) && Date.now() > this.startGameTime) {
+        if ((
+                this.game.input.keyboard.isDown(Phaser.Keyboard.ESC) ||
+                this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_B) ||
+                this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_BACK)
+            ) && Date.now() > this.debounceTime) {
             this.game.state.start('title');
         }
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.S)) {
+        if ((
+            this.game.input.keyboard.isDown(Phaser.Keyboard.S)  ||
+            this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_X)) && Date.now() > this.debounceTime
+        ) {
             this.game.state.start('simInvadersScoreboard');
         }
     }

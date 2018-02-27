@@ -120,13 +120,20 @@ export default class FlappyScrangle extends Phaser.State {
 	}
 
 	public update() {
-    	if ( ! this.player.alive && this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+    	if ( ! this.player.alive && (
+				this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ||
+				this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_A)
+			)
+		) {
 			this.game.state.start('flappyScrangle');
 			this.score = 0;
 			this.blockCount = 0;
 		}
 
-		if( this.game.input.keyboard.isDown(Phaser.Keyboard.ESC)){
+		if(
+			this.game.input.keyboard.isDown(Phaser.Keyboard.ESC) ||
+            this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_BACK)
+		){
 			this.game.state.start('flappyTitle');
 		}
 

@@ -58,6 +58,8 @@ export default class SimInvaders extends Phaser.State {
     private wave: number;
     private newWaveQueued = false;
 
+    private pauseDebounce: number = 0;
+
     public create(): void {
         this.playerBulletGroup = this.add.physicsGroup();
         this.enemyBulletGroup = this.add.physicsGroup();
@@ -126,7 +128,7 @@ export default class SimInvaders extends Phaser.State {
         const bottomBounds = this.world.height * (1 - WORLD_SPAWN_PADDING_BOTTOM);
         const spawnSpaceWidth = rightBounds - leftBounds;
         const spawnSpaceHeight = bottomBounds - topBounds;
-        const enemyCounts = this.getCurrentWaveEnemyCount()
+        const enemyCounts = this.getCurrentWaveEnemyCount();
         for (let spawnX = leftBounds; spawnX < rightBounds; spawnX += (spawnSpaceWidth / (enemyCounts.horizontal - 1))) {
             for (let spawnY = topBounds; spawnY < bottomBounds; spawnY += spawnSpaceHeight / (enemyCounts.vertical - 1)) {
                 let sim = new Sim(this.game, spawnX, spawnY, this.player, this.getRandomSimTypeForWave(), this.wave > ESIM_ENABLE_WAVE);
@@ -203,8 +205,29 @@ export default class SimInvaders extends Phaser.State {
         })
     }
 
+    public pauseUpdate () {
+        if (
+            (this.game.input.keyboard.isDown(Phaser.Keyboard.ESC)) && Date.now() > this.pauseDebounce
+        ) {
+            this.game.paused = false;
+        }
+
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.Q)) {
+            this.game.paused = false;
+            this.game.state.start('simInvadersTitle');
+        }
+    }
+
     public update() {
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) this.spawnBullet();
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) || this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_A)) this.spawnBullet();
+
+        if (
+            (this.game.input.keyboard.isDown(Phaser.Keyboard.ESC) ||
+            this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_START)) &&  Date.now() > this.pauseDebounce
+        ) {
+            this.pauseDebounce = Date.now() + 1000;
+            this.game.paused = true;
+        }
         this.enemySimGroup.forEach((sim) => {
             let bullet = sim.fire();
             if (bullet) {
