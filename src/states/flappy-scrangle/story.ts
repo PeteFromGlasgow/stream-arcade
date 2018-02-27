@@ -22,8 +22,8 @@ export default class FlappyStory extends Phaser.State {
                                    "One day he was asked to embark on a quest to rid the FreeBSD kernel of all of it's nasty bugs..",
                                    "This proved a great challenge to the apprentice nut cracker, and he found himself in fits of rage at FreeBSD..                                   ",
                                    "He took to the FreeBSD message boards and complained loudly whenever he could stirring up rage from the developers.",
-                                   "He also embarked on a mission to flood the FreeBSD source code with ASCII squirrels to show them once and for all who was boss.", 
-                                   "One PC wasn't enough though, so he recruited lots of other woodland creatures to help, and taught them how to use git.",
+                                   "He embarked on a mission to flood the FreeBSD source code with ASCII squirrels to show them once and for all who was boss.", 
+                                   "One PC wasn't enough, so he recruited lots of other woodland creatures to help, and taught them how to use git.",
                                    "Soon enough, 80% of the source code was squirrels, and performance had slowed to a crawl.",
                                    "The neckbeards had had enough!",
                                    "They marched an army that stretched for miles deep into the forest, reverting any git commits they could find and setting fire to everything.",
@@ -46,10 +46,15 @@ export default class FlappyStory extends Phaser.State {
 
         this.skipTextTimer = this.time.events.loop(500, this.flash, this);
         this.storyTimer = this.time.events.loop(2500, this.showStory, this);
-
+        this.storyTimer.timer.start();
         this.storySpriteText = new Array<Phaser.Text>();
-
-        for(let i = 0; i < this.storyText.length; i++){
+        this.storySpriteText[0] = this.game.add.text(this.game.world.centerX - 600,((this.game.world.centerY - 300)+ (0*38)),this.storyText[0],{
+            font: '25px ' + Assets.GoogleWebFonts.VT323,
+            boundsAlignV: 'middle',
+            boundsAlignH: 'middle',
+            fill: '#FFFFFF'
+        });
+        for(let i = 1; i < this.storyText.length; i++){
             this.storySpriteText[i] = this.game.add.text(this.game.world.centerX - 600,((this.game.world.centerY - 300)+ (i*38)),this.storyText[i],{
                 font: '25px ' + Assets.GoogleWebFonts.VT323,
                 boundsAlignV: 'middle',
@@ -67,7 +72,10 @@ export default class FlappyStory extends Phaser.State {
 			fill: '#FFFFFF'
         });
         
-        // this.stage.backgroundColor = '#269900';
+        this.game.sound.play(Assets.Audio.AudioFlappyScrangleStoryMusic.getName(), 0.2, false);
+    }
+    public shutdown() {
+        this.game.sound.stopAll();
     }
     showStory(){
         if(this.storyTextCount < this.storyText.length){

@@ -55,6 +55,7 @@ export default class FlappyScoreboard extends Phaser.State {
             });
             scoreText.anchor.set(1, 0);
             this.scoreList.add(scoreText);
+            this.stage.backgroundColor = '#000000';
             positionY += 30;
         })
     }

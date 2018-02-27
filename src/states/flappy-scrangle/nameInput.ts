@@ -39,6 +39,7 @@ export default class FlappyNameInput extends Phaser.State {
         });
         this.nameDisplay.anchor.set(0.5);
         this.game.add.existing(this.nameDisplay);
+        this.stage.backgroundColor = '#000000';
 
         this.namePrompt.anchor.set(0.5);
         this.game.add.existing(this.namePrompt);
@@ -46,7 +47,8 @@ export default class FlappyNameInput extends Phaser.State {
             if (/[A-Za-z0-9 _]/.test(code) && this.name.length < 10) {
                 this.name += code;
             }
-            this.updateName()
+            
+            this.updateName();
         }
 
 

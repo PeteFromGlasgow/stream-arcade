@@ -60,6 +60,7 @@ export default class FlappyScrangle extends Phaser.State {
 
         this.scanlineFilter =  new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersWave.getName()));
 		this.background.filters = [this.scanlineFilter];
+		this.game.sound.play(Assets.Audio.AudioFlappygame.getName(),1.3,true);
 	}
 
 	RGBtoHEX(r,g,b) {
@@ -120,8 +121,10 @@ export default class FlappyScrangle extends Phaser.State {
 	}
 
 	public update() {
-    	if ( ! this.player.alive && this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+    	if ( ! this.player.alive) {
 			this.game.state.start('flappyScrangle');
+			this.game.state.start('flappyNameInput', true, false, this.score);
+			this.game.sound.play(Assets.Audio.AudioGameover.getName(),0.3, false);
 			this.score = 0;
 			this.blockCount = 0;
 		}

@@ -18,7 +18,7 @@ export default class SimInvadersTitle extends Phaser.State {
             boundsAlignH: 'middle',
             fill: '#FF0000'
         });
-        this.game.sound.play(Assets.Audio.AudioSimInvadersTitle.getName(), 1, true);
+        this.game.sound.play(Assets.Audio.AudioSimInvadersTitle.getName(), 0.5, true);
     }
 
     public update() {

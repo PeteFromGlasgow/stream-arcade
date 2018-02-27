@@ -58,7 +58,7 @@ export default class Player extends Phaser.Sprite {
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
 
-            this.body.velocity.y = -360;
+            this.body.velocity.y = -390;
             var animation = this.game.add.tween(this);
             animation.to({angle: -10}, 50);
             animation.start(); 

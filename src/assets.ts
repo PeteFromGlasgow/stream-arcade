@@ -159,6 +159,22 @@ export namespace Atlases {
 }
 
 export namespace Audio {
+    export class AudioFlappygame {
+        static getName(): string { return 'flappygame'; }
+
+        static getMP3(): string { return require('assets/audio/flappygame.mp3'); }
+        static getWAV(): string { return require('assets/audio/flappygame.WAV'); }
+    }
+    export class AudioFlappyScrangleStoryMusic {
+        static getName(): string { return 'FlappyScrangleStoryMusic'; }
+
+        static getMP3(): string { return require('assets/audio/FlappyScrangleStoryMusic.mp3'); }
+    }
+    export class AudioGameover {
+        static getName(): string { return 'gameover'; }
+
+        static getWAV(): string { return require('assets/audio/gameover.wav'); }
+    }
     export class AudioMusic {
         static getName(): string { return 'music'; }
 
@@ -281,9 +297,5 @@ export namespace Shaders {
     }
 }
 export namespace Misc {
-    export class SpritesheetsShip374518 {
-        static getName(): string { return 'ship.[37,45,18,0,0]'; }
-
-        static getFile(): string { return require('assets/spritesheets/ship.[37,45,18,0,0].png~'); }
-    }
+    class IExistSoTypeScriptWillNotComplainAboutAnEmptyNamespace {}
 }
