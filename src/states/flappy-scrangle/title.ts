@@ -54,10 +54,16 @@ export default class FlappyTitle extends Phaser.State {
     public update(): void {
         this.sinTracker = (this.sinTracker + (10 * ONE_DEGREE_RADIANS))  % RADIAN;
 
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        if (
+            this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ||
+            this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_A)
+        ) {
             this.game.state.start('flappyStory');
         }
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.ESC)) {
+        if (
+            this.game.input.keyboard.isDown(Phaser.Keyboard.ESC) ||
+            this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_BACK)
+        ) {
             this.game.state.start('title');
         }
 

@@ -121,6 +121,7 @@ export default class FlappyScrangle extends Phaser.State {
 	}
 
 	public update() {
+
     	if ( ! this.player.alive) {
 			this.game.state.start('flappyScrangle');
 			this.game.state.start('flappyNameInput', true, false, this.score);
@@ -129,7 +130,10 @@ export default class FlappyScrangle extends Phaser.State {
 			this.blockCount = 0;
 		}
 
-		if( this.game.input.keyboard.isDown(Phaser.Keyboard.ESC)){
+		if(
+			this.game.input.keyboard.isDown(Phaser.Keyboard.ESC) ||
+            this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_BACK)
+		){
 			this.game.state.start('flappyTitle');
 		}
 

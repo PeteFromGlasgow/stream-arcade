@@ -68,7 +68,10 @@ export default class SimInvadersScoreboard extends Phaser.State {
     }
 
     public update() {
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        if (
+            this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ||
+            this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_A)
+        ) {
             this.state.start('simInvadersTitle');
         }
     }

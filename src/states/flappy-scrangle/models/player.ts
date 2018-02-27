@@ -56,7 +56,10 @@ export default class Player extends Phaser.Sprite {
             return;
         }
 
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        if (
+            this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) ||
+            this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_A)
+        ) {
 
             this.body.velocity.y = -390;
             var animation = this.game.add.tween(this);
