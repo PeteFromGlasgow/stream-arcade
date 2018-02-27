@@ -15,7 +15,7 @@ export default class Title extends Phaser.State {
     private sfxAudiosprite: Phaser.AudioSprite = null;
     private mummySpritesheet: Phaser.Sprite = null;
     private sinTracker = 0;
-    private selected: string = 'simInvaders';
+    private selected: string = 'simInvadersTitle';
     private flappySquare: Phaser.Sprite = null;
     private simInvadersSquare: Phaser.Sprite = null;
     private selectionText: Phaser.Text = null;
@@ -74,7 +74,11 @@ export default class Title extends Phaser.State {
 		});
 
         this.stage.backgroundColor = '#000000';
-        //this.game.sound.play(Assets.Audio.AudioMusic.getName(), 1, true);
+        this.game.sound.play(Assets.Audio.AudioStreamArcadeFull.getName(), 1, true);
+    }
+
+    public shutdown() {
+        this.game.sound.stopAll()
     }
 
 	RGBtoHEX(r,g,b) {

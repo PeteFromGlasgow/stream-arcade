@@ -4,7 +4,9 @@ import * as Assets from '../../../assets';
 const PLAYER_SPEED = 10;
 export class Player extends Phaser.Sprite {
     constructor(game: Phaser.Game, x: number, y: number) {
-        super(game, x, y, Assets.Spritesheets.SpritesheetsSpritesheet64643.getName(), 0);
+        super(game, x, y, Assets.Spritesheets.SpritesheetsSpritesheet64648.getName(), 5);
+        this.animations.add('stationary', [5]);
+        this.animations.add('death', [0, 1, 2, 3, 4], 10);
         this.game = game;
         this.anchor.set(0.5);
         this.smoothed = false;

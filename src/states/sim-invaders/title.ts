@@ -1,6 +1,7 @@
 import * as Assets from '../../assets';
 
 export default class SimInvadersTitle extends Phaser.State {
+    private startGameTime: number = Date.now() + 1000;
     private title: Phaser.Sprite;
     private startText: Phaser.Text = null;
     private startTextTimer: Phaser.TimerEvent;
@@ -17,14 +18,22 @@ export default class SimInvadersTitle extends Phaser.State {
             boundsAlignH: 'middle',
             fill: '#FF0000'
         });
+        this.game.sound.play(Assets.Audio.AudioSimInvadersTitle.getName(), 1, true);
     }
 
     public update() {
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
             this.game.state.start('simInvaders');
         }
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.ESC)) {
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.ESC) && Date.now() > this.startGameTime) {
             this.game.state.start('title');
         }
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.S)) {
+            this.game.state.start('simInvadersScoreboard');
+        }
+    }
+
+    public shutdown() {
+        this.game.sound.stopAll()
     }
 }

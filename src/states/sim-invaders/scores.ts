@@ -7,6 +7,14 @@ export default class SimInvadersScoreboard extends Phaser.State {
     scoreService: ScoreService;
     scoreList: Phaser.Group;
 
+    score: number;
+    name: string;
+
+    public init(name?: string, score?: number) {
+        this.score = score;
+        this.name = name;
+    }
+
     public create(): void {
         this.title = new Phaser.Sprite(this.game, this.game.world.centerX, 300, Assets.Spritesheets.SpritesheetsSimInvaders800600.getName(), 0);
         this.title.anchor.set(0.5);
@@ -29,11 +37,12 @@ export default class SimInvadersScoreboard extends Phaser.State {
     private createScoreList(scores: any[]) {
         let positionY = this.game.height * 0.5;
         scores.forEach(score => {
+            let color = (this.name === score.name && this.score === score.score) ? '#FFFF33' : '#FFFFFF';
             let nameText = new Phaser.Text(this.game, this.game.width * 0.3, positionY , score.name, {
                 font: '30px ' + Assets.GoogleWebFonts.VT323,
                 boundsAlignV: 'middle',
                 boundsAlignH: 'middle',
-                fill: '#FFFFFF'
+                fill: color
             });
             this.scoreList.add(nameText);
 
@@ -41,7 +50,7 @@ export default class SimInvadersScoreboard extends Phaser.State {
                 font: '30px ' + Assets.GoogleWebFonts.VT323,
                 boundsAlignV: 'middle',
                 boundsAlignH: 'middle',
-                fill: '#FFFFFF'
+                fill: color
             });
             scoreText.anchor.set(1, 0);
             this.scoreList.add(scoreText);
@@ -50,8 +59,7 @@ export default class SimInvadersScoreboard extends Phaser.State {
     }
     private async loadScores() {
         try {
-            let scores = await this.scoreService.getScores(Games.FlappyScrangle);
-            console.log(scores)
+            let scores = await this.scoreService.getScores(Games.SimInvaders);
             this.createScoreList(scores);
         } catch (error) {
             console.log('Could not load scores');
@@ -60,5 +68,8 @@ export default class SimInvadersScoreboard extends Phaser.State {
     }
 
     public update() {
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+            this.state.start('simInvadersTitle');
+        }
     }
 }

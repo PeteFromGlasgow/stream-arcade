@@ -4,6 +4,7 @@ import {ScoreService, Games} from '../../services/ScoreService';
 const KEY_DEBOUNCE = 100;
 
 export default class SimInvadersNameInput extends Phaser.State {
+    submitted: boolean = false;
     title: Phaser.Sprite;
     namePrompt: Phaser.Text;
     nameDisplay: Phaser.Text;
@@ -14,12 +15,13 @@ export default class SimInvadersNameInput extends Phaser.State {
 
     public init(score) {
         this.score = score;
-        console.log(score)
     }
 
     public create(): void {
         this.title = new Phaser.Sprite(this.game, this.game.world.centerX, 300, Assets.Spritesheets.SpritesheetsSimInvaders800600.getName(), 0);
         this.title.anchor.set(0.5);
+        this.title.scale.set(0.7);
+
         this.game.add.existing(this.title)
 
         this.scoreService = new ScoreService();
@@ -40,7 +42,6 @@ export default class SimInvadersNameInput extends Phaser.State {
         this.nameDisplay.anchor.set(0.5);
         this.game.add.existing(this.nameDisplay);
 
-        
         this.namePrompt.anchor.set(0.5);
         this.game.add.existing(this.namePrompt);
         this.game.input.keyboard.onPressCallback = (code) => {
@@ -48,6 +49,17 @@ export default class SimInvadersNameInput extends Phaser.State {
                 this.name += code;
             }
             this.updateName()
+        }
+
+
+        if (new ScoreService().isUserCreated()) {
+            try {
+                this.scoreService.addScore(Games.SimInvaders, this.score).then((response) => {
+                    this.game.state.start('simInvadersScoreboard', true, false, new ScoreService().getUserName(), this.score);
+                })
+            } catch (error) {
+                console.log('User not created');
+            }
         }
     }
 
@@ -62,20 +74,20 @@ export default class SimInvadersNameInput extends Phaser.State {
 
 
     public update() {
-        
-
         if (this.game.input.keyboard.isDown((Phaser.Keyboard.BACKSPACE)) && Date.now() > this.nextBackspaceTime) {
             this.name = this.name.substring(0, this.name.length - 1)
             this.nextBackspaceTime = Date.now() + KEY_DEBOUNCE;
             this.updateName()
         }
 
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.ENTER)) {
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.ENTER) && !this.submitted) {
+            this.submitted = true;
             this.nextBackspaceTime = Date.now() * 10;
             this.game.input.keyboard.onPressCallback = null;
             this.scoreService.createUser(this.name).then(() => {
-                this.scoreService.addScore(Games.SimInvaders, this.score);
-                this.game.state.start('simInvadersScoreboard');
+                this.scoreService.addScore(Games.SimInvaders, this.score).then((response) => {
+                    this.game.state.start('simInvadersScoreboard', true, false, this.name, this.score);
+                })
             })
         }
     }
