@@ -96,16 +96,13 @@ export default class FlappyStory extends Phaser.State {
         }
     }
     public update(): void {
-<<<<<<< HEAD
         if(this.skipped){
             this.game.state.start('flappyScrangle');
         }
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.S)) {
-            this.skipped = true;
-=======
+
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.S) || this.game.input.gamepad.pad1.isDown(Phaser.Gamepad.XBOX360_B)) {
->>>>>>> 7eea54944ffb9c7aac0a4b47879f8d00a7181d62
+            this.skipped = true;
             this.game.state.start('flappyScrangle');
         }
     }

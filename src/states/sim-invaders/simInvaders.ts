@@ -78,6 +78,7 @@ export default class SimInvaders extends Phaser.State {
             boundsAlignH: 'middle',
             fill: '#FFFFFF'
         });
+        this.scoreTitle.anchor.set(1, 0);
 
         this.livesText = this.game.add.text(100, 10, `Lives ${this.lives}`, {
             font: '24px ' + Assets.GoogleWebFonts.VT323,
@@ -85,7 +86,7 @@ export default class SimInvaders extends Phaser.State {
             boundsAlignH: 'middle',
             fill: '#FFFFFF'
         });
-        this.livesText.anchor.set(1, 0);
+        this.livesText.anchor.set(0, 0);
 
         this.newWaveQueued = true;
         this.displayWave().then(() => {

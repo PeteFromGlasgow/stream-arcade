@@ -297,5 +297,9 @@ export namespace Shaders {
     }
 }
 export namespace Misc {
-    class IExistSoTypeScriptWillNotComplainAboutAnEmptyNamespace {}
+    export class SpritesheetsShip374518 {
+        static getName(): string { return 'ship.[37,45,18,0,0]'; }
+
+        static getFile(): string { return require('assets/spritesheets/ship.[37,45,18,0,0].png~'); }
+    }
 }
