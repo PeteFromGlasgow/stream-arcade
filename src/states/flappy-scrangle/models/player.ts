@@ -19,6 +19,12 @@ export default class Player extends Phaser.Sprite {
     'wert',
     'dert',
     'There\'s no way this will break anything',
+    'I think we just need to punch it in the face',
+    'Sideways fist',
+    'Stream if you want to go faster',
+    'It\'s not moist, it\'s dripping!',
+    'You\'re not a circus midget.',
+    'Why\'s it not fucking dead yet.'
     ];
 
     private timer: Phaser.TimerEvent;
