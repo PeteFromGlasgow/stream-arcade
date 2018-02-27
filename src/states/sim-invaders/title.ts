@@ -18,6 +18,7 @@ export default class SimInvadersTitle extends Phaser.State {
             boundsAlignH: 'middle',
             fill: '#FF0000'
         });
+        this.game.sound.play(Assets.Audio.AudioSimInvadersTitle.getName(), 1, true);
     }
 
     public update() {
@@ -30,5 +31,9 @@ export default class SimInvadersTitle extends Phaser.State {
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.S)) {
             this.game.state.start('simInvadersScoreboard');
         }
+    }
+
+    public shutdown() {
+        this.game.sound.stopAll()
     }
 }

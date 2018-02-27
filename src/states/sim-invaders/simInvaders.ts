@@ -93,6 +93,11 @@ export default class SimInvaders extends Phaser.State {
 
         this.player = new Player(this.game, this.game.width * 0.5, this.game.height * 0.9);
         this.pixelateShader = new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersPixelate.getName()));
+        this.game.sound.play(Assets.Audio.AudioSimInvadersGame.getName(), 1, true);
+    }
+
+    public shutdown() {
+        this.game.sound.stopAll();
     }
 
     private getCurrentWaveSimTypeTable() {
@@ -195,8 +200,7 @@ export default class SimInvaders extends Phaser.State {
             this.livesText.setText(`Lives ${this.lives}`);
             player.position.set(this.game.width * 0.5, this.game.height * 0.9)
             player.play('stationary');
-            
-        }) 
+        })
     }
 
     public update() {

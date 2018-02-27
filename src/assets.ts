@@ -164,6 +164,21 @@ export namespace Audio {
 
         static getMP3(): string { return require('assets/audio/music.mp3'); }
     }
+    export class AudioSimInvadersGame {
+        static getName(): string { return 'SimInvadersGame'; }
+
+        static getMP3(): string { return require('assets/audio/SimInvadersGame.mp3'); }
+    }
+    export class AudioSimInvadersTitle {
+        static getName(): string { return 'SimInvadersTitle'; }
+
+        static getWAV(): string { return require('assets/audio/SimInvadersTitle.wav'); }
+    }
+    export class AudioStreamArcadeFull {
+        static getName(): string { return 'StreamArcadeFull'; }
+
+        static getMP3(): string { return require('assets/audio/StreamArcadeFull.mp3'); }
+    }
 }
 
 export namespace Audiosprites {
