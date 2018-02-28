@@ -1,0 +1,62 @@
+{
+  "resources": [
+    "SimInvadersSoundsprite.mp3"
+  ],
+  "spritemap": {
+    "chord1": {
+      "start": 0,
+      "end": 3.410,
+      "loop": false
+    },
+    "chord2": {
+      "start": 3.410,
+      "end": 6.841,
+      "loop": false
+    },
+    "chord3": {
+      "start": 6.841,
+      "end": 10.273,
+      "loop": false
+    },
+    "chord4": {
+      "start": 10.273,
+      "end": 13.671,
+      "loop": false
+    },
+    "note1": {
+      "start": 13.671,
+      "end": 17.125,
+      "loop": false
+    },
+    "note2": {
+      "start": 17.125,
+      "end": 20.545,
+      "loop": false
+    },
+    "note3": {
+      "start": 20.545,
+      "end": 24,
+      "loop": false
+    },
+    "note4": {
+      "start": 24,
+      "end": 27.430,
+      "loop": false
+    },
+    "note5": {
+      "start": 27.430,
+      "end": 30.863,
+      "loop": false
+    },
+    "note6": {
+      "start": 30.863,
+      "end": 34.283,
+      "loop": false
+    },
+    "note7": {
+      "start": 34.283,
+      "end": 37.714,
+      "loop": false
+    }
+  }
+}
