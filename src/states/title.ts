@@ -29,7 +29,7 @@ export default class Title extends Phaser.State {
 
     public create(): void {
         this.game.sound.stopAll();
-        this.googleFontText = this.game.add.text(this.game.world.centerX-50, this.game.world.centerY - 460, 'Stream Arcade', {
+        this.googleFontText = this.game.add.text(this.game.world.centerX-30, this.game.world.centerY - 460, 'Stream Arcade', {
             font: '50px ' + Assets.GoogleWebFonts.VT323,
             fill: '#FFFFFF'
         });
