@@ -220,6 +220,27 @@ export namespace Audiosprites {
 
         static Sprites = AudiospritesSfxSprites;
     }
+    enum AudiospritesSimInvadersSoundspriteSprites {
+        Chord1 = <any>'chord1',
+        Chord2 = <any>'chord2',
+        Chord3 = <any>'chord3',
+        Chord4 = <any>'chord4',
+        Note1 = <any>'note1',
+        Note2 = <any>'note2',
+        Note3 = <any>'note3',
+        Note4 = <any>'note4',
+        Note5 = <any>'note5',
+        Note6 = <any>'note6',
+        Note7 = <any>'note7',
+    }
+    export class AudiospritesSimInvadersSoundsprite {
+        static getName(): string { return 'SimInvadersSoundsprite'; }
+
+        static getJSON(): string { return require('assets/audiosprites/SimInvadersSoundsprite.json'); }
+        static getMP3(): string { return require('assets/audiosprites/SimInvadersSoundsprite.mp3'); }
+
+        static Sprites = AudiospritesSimInvadersSoundspriteSprites;
+    }
 }
 
 export namespace GoogleWebFonts {
@@ -297,5 +318,9 @@ export namespace Shaders {
     }
 }
 export namespace Misc {
-    class IExistSoTypeScriptWillNotComplainAboutAnEmptyNamespace {}
+    export class SpritesheetsShip374518 {
+        static getName(): string { return 'ship.[37,45,18,0,0]'; }
+
+        static getFile(): string { return require('assets/spritesheets/ship.[37,45,18,0,0].png~'); }
+    }
 }

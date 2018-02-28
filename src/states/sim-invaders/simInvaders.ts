@@ -43,6 +43,7 @@ const ESIM_ENABLE_WAVE = 7;
 
 
 export default class SimInvaders extends Phaser.State {
+    private sfxAudiosprite: Phaser.AudioSprite;
     private lastBulletTime: number = 0;
     private scoreTitle: Phaser.Text = null;
     private livesText: Phaser.Text = null;
@@ -52,6 +53,7 @@ export default class SimInvaders extends Phaser.State {
     private playerBulletGroup: Phaser.Group = null;
     private enemySimGroup: Phaser.Group = null;
     private enemyBulletGroup: Phaser.Group = null;
+    private sfxNotes: any;
 
     private score: number;
     private lives: number;
@@ -78,6 +80,7 @@ export default class SimInvaders extends Phaser.State {
             boundsAlignH: 'middle',
             fill: '#FFFFFF'
         });
+        this.scoreTitle.anchor.set(1, 0);
 
         this.livesText = this.game.add.text(100, 10, `Lives ${this.lives}`, {
             font: '24px ' + Assets.GoogleWebFonts.VT323,
@@ -85,7 +88,7 @@ export default class SimInvaders extends Phaser.State {
             boundsAlignH: 'middle',
             fill: '#FFFFFF'
         });
-        this.livesText.anchor.set(1, 0);
+        this.livesText.anchor.set(0, 0);
 
         this.newWaveQueued = true;
         this.displayWave().then(() => {
@@ -96,6 +99,17 @@ export default class SimInvaders extends Phaser.State {
         this.player = new Player(this.game, this.game.width * 0.5, this.game.height * 0.9);
         this.pixelateShader = new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersPixelate.getName()));
         this.game.sound.play(Assets.Audio.AudioSimInvadersGame.getName(), 1, true);
+
+        this.sfxAudiosprite = this.game.add.audioSprite(Assets.Audiosprites.AudiospritesSimInvadersSoundsprite.getName());
+        this.sfxNotes = [
+            Assets.Audiosprites.AudiospritesSimInvadersSoundsprite.Sprites.Note1,
+            Assets.Audiosprites.AudiospritesSimInvadersSoundsprite.Sprites.Note2,
+            Assets.Audiosprites.AudiospritesSimInvadersSoundsprite.Sprites.Note3,
+            Assets.Audiosprites.AudiospritesSimInvadersSoundsprite.Sprites.Note4,
+            Assets.Audiosprites.AudiospritesSimInvadersSoundsprite.Sprites.Note5,
+            Assets.Audiosprites.AudiospritesSimInvadersSoundsprite.Sprites.Note6,
+            Assets.Audiosprites.AudiospritesSimInvadersSoundsprite.Sprites.Note7,
+        ]
     }
 
     public shutdown() {
@@ -153,6 +167,7 @@ export default class SimInvaders extends Phaser.State {
 
     private handleAttackEnemySim(bullet: PlayerBullet, sim: Sim) {
         this.score += STANDARD_SIM_KILL_SCORE;
+        this.sfxAudiosprite.play(this.game.rnd.pick(this.sfxNotes), 0.2).allowMultiple = true;
         this.updateScoreText();
         sim.die();
         this.playerBulletGroup.remove(bullet);
