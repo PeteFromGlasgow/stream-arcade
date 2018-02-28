@@ -24,14 +24,14 @@ export default class FlappyNameInput extends Phaser.State {
 
         this.scoreService = new ScoreService();
 
-        this.namePrompt = new Phaser.Text(this.game, this.game.world.centerX - 10, this.game.world.height * 0.47 , 'What is your name?', {
+        this.namePrompt = new Phaser.Text(this.game, this.game.world.centerX - 10, this.game.world.height * 0.60 , 'What is your name?', {
             font: '42px ' + Assets.GoogleWebFonts.VT323,
             boundsAlignV: 'middle',
             boundsAlignH: 'middle',
             fill: '#FFFFFF'
         });
 
-        this.nameDisplay = new Phaser.Text(this.game, this.game.world.centerX - 10, this.game.world.height * 0.53 , this.name, {
+        this.nameDisplay = new Phaser.Text(this.game, this.game.world.centerX - 10, this.game.world.height * 0.65 , this.name, {
             font: '72px ' + Assets.GoogleWebFonts.VT323,
             boundsAlignV: 'middle',
             boundsAlignH: 'middle',

@@ -28,7 +28,7 @@ export default class Title extends Phaser.State {
     private sfxLaserSounds: any[] = null;
 
     public create(): void {
-        this.googleFontText = this.game.add.text(this.game.world.centerX, this.game.world.centerY - 460, 'Stream Arcade', {
+        this.googleFontText = this.game.add.text(this.game.world.centerX - 40, this.game.world.centerY - 460, 'Stream Arcade', {
             font: '50px ' + Assets.GoogleWebFonts.VT323,
             fill: '#FFFFFF'
         });
